@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Section;
+use App\Support\HtmlSanitizer;
 use App\Support\ImageUploader;
 use App\Support\TextStyles;
 use Illuminate\Contracts\View\View;
@@ -38,6 +39,10 @@ class SectionController extends Controller
 
         $current = section_data('hero');
         unset($data['image']);
+
+        // Drop javascript:/data: links; only http(s), mailto, tel and site-relative URLs are kept.
+        $data['primary_button_link'] = HtmlSanitizer::safeUrl($data['primary_button_link'] ?? null);
+        $data['secondary_button_link'] = HtmlSanitizer::safeUrl($data['secondary_button_link'] ?? null);
 
         if ($request->boolean('remove_image')) {
             $data['image'] = null;
@@ -77,7 +82,7 @@ class SectionController extends Controller
         $payload = [
             'heading' => $data['heading'],
             'subheading' => $data['subheading'] ?? ($current['subheading'] ?? ''),
-            'body' => $data['body'] ?? '',
+            'body' => HtmlSanitizer::clean($data['body'] ?? ''),
             'points' => $points,
             'stats' => $current['stats'] ?? [],
             'image' => $current['image'] ?? null,
@@ -154,7 +159,7 @@ class SectionController extends Controller
 
                 return [
                     'label' => $parts[0] ?? '',
-                    'url' => $parts[1] ?? '',
+                    'url' => HtmlSanitizer::safeUrl($parts[1] ?? '') ?? '',
                 ];
             })
             ->filter(fn ($item) => $item['label'] !== '' && $item['url'] !== '')

@@ -40,6 +40,8 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            // The users.role column defaults to 'admin', so self-registration must opt out explicitly.
+            'role' => 'user',
         ]);
 
         event(new Registered($user));

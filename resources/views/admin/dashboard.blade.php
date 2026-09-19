@@ -30,7 +30,9 @@
         <div class="mt-3 flex flex-col gap-2 text-sm">
             <a href="{{ route('admin.posts.create') }}" class="font-semibold text-brand-blue hover:underline">+ New blog post</a>
             <a href="{{ route('admin.sections.edit') }}" class="font-semibold text-brand-blue hover:underline">Edit homepage content</a>
-            <a href="{{ route('admin.settings.edit') }}" class="font-semibold text-brand-blue hover:underline">Edit site settings</a>
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.settings.edit') }}" class="font-semibold text-brand-blue hover:underline">Edit site settings</a>
+            @endif
         </div>
     </div>
 </div>

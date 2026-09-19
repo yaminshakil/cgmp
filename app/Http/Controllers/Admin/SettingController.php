@@ -35,6 +35,8 @@ class SettingController extends Controller
             'mail_to' => ['nullable', 'email', 'max:255'],
             'mail_username' => ['nullable', 'email', 'max:255'],
             'mail_password' => ['nullable', 'string', 'max:255'],
+            'logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
+            'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg,ico', 'max:1024'],
         ]);
 
         foreach (self::KEYS as $key) {
@@ -47,11 +49,6 @@ class SettingController extends Controller
         } elseif ($request->boolean('clear_mail_password')) {
             ContactMailer::storePassword(null);
         }
-
-        $request->validate([
-            'logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
-            'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg,ico', 'max:1024'],
-        ]);
 
         if ($request->boolean('remove_logo')) {
             Setting::query()->updateOrCreate(['key' => 'logo_path'], ['value' => null]);

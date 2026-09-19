@@ -4,24 +4,30 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $password = 'CgmpAdmin!2026';
+        // Set ADMIN_EMAIL / ADMIN_PASSWORD in .env to choose the first login; otherwise a random
+        // password is generated. An existing admin is never touched, so re-seeding can't reset it.
+        $email = env('ADMIN_EMAIL', 'admin@cgmp.local');
 
-        User::query()->updateOrCreate(
-            ['email' => 'admin@cgmp.local'],
-            [
-                'name' => 'CGMP Admin',
-                'password' => Hash::make($password),
-                'role' => 'admin',
-                'email_verified_at' => now(),
-            ]
-        );
+        if (User::query()->where('email', $email)->exists()) {
+            return;
+        }
 
-        $this->command?->warn("Admin login seeded: admin@cgmp.local / {$password} — change this immediately after first login.");
+        $password = env('ADMIN_PASSWORD') ?: Str::password(16, symbols: false);
+
+        User::query()->create([
+            'name' => 'CGMP Admin',
+            'email' => $email,
+            'password' => $password,
+            'role' => User::ROLE_ADMIN,
+            'email_verified_at' => now(),
+        ]);
+
+        $this->command?->warn("Admin login created: {$email} / {$password} - change this after first login.");
     }
 }

@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Page;
+use App\Support\HtmlSanitizer;
+use App\Support\Slug;
 use App\Support\TextStyles;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -27,7 +28,7 @@ class PageController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $data['slug'] = Slug::uniquePage(Page::class, ($data['slug'] ?? null) ?: $data['title'], 'page');
 
         Page::create($data);
 
@@ -42,7 +43,7 @@ class PageController extends Controller
     public function update(Request $request, Page $page): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $data['slug'] = Slug::uniquePage(Page::class, ($data['slug'] ?? null) ?: $data['title'], 'page', $page->id);
 
         $page->update($data);
 
@@ -66,6 +67,7 @@ class PageController extends Controller
             'meta_description' => ['nullable', 'string', 'max:255'],
         ]);
 
+        $data['body'] = HtmlSanitizer::clean($data['body'] ?? null);
         $data['text_styles'] = TextStyles::sanitizeAll(
             $request->input('text_styles', []),
             ['title', 'body']

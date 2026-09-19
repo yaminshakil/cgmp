@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Support\Slug;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -23,7 +23,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = Slug::unique(Category::class, $data['name'], 'category');
 
         Category::create($data);
 
@@ -35,7 +35,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
         ]);
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = Slug::unique(Category::class, $data['name'], 'category', $category->id);
 
         $category->update($data);
 

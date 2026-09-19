@@ -56,7 +56,13 @@
                         ['admin.sections.edit', 'Homepage Sections', 'M3 9h18M9 21V9M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'],
                         ['admin.settings.edit', 'Settings', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'],
                         ['admin.messages.index', 'Messages', 'M4 4h16v16H4zM4 8l8 6 8-6'],
+                        ['admin.users.index', 'Users', 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'],
                     ];
+
+                    // Settings and Users are admin-only; managers don't see them.
+                    if (! auth()->user()?->isAdmin()) {
+                        $links = array_values(array_filter($links, fn ($l) => ! in_array($l[0], ['admin.settings.edit', 'admin.users.index'], true)));
+                    }
                 @endphp
                 @foreach($links as [$routeName, $label, $iconPath])
                     <a href="{{ route($routeName) }}" class="flex items-center gap-3 rounded-lg border-l-4 px-3 py-2 transition-colors duration-200 {{ request()->routeIs($routeName.'*') ? 'border-sky-400 bg-white/10 font-semibold text-white' : 'border-transparent hover:bg-white/5' }}">

@@ -10,9 +10,10 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'staff'])->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
 
     Route::resource('services', ServiceController::class)->except('show');
@@ -30,9 +31,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'admin']
     Route::put('sections/navigation', [SectionController::class, 'updateNavigation'])->name('sections.navigation');
     Route::put('sections/footer-links', [SectionController::class, 'updateFooterLinks'])->name('sections.footer-links');
 
-    Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
-    Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
-    Route::post('settings/test-mail', [SettingController::class, 'testMail'])->name('settings.test-mail');
+    // Admin-only: site settings and user management (managers are blocked).
+    Route::middleware('admin')->group(function () {
+        Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
+        Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
+        Route::post('settings/test-mail', [SettingController::class, 'testMail'])->name('settings.test-mail');
+
+        Route::resource('users', UserController::class)->except('show');
+    });
 
     Route::get('messages', [ContactMessageController::class, 'index'])->name('messages.index');
     Route::get('messages/{message}', [ContactMessageController::class, 'show'])->name('messages.show');

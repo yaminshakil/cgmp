@@ -17,6 +17,8 @@ class ServiceController extends Controller
 
     public function show(Service $service): View
     {
+        abort_unless($service->is_active, 404);
+
         return view('services.show', [
             'service' => $service,
             'others' => Service::active()->where('id', '!=', $service->id)->take(3)->get(),

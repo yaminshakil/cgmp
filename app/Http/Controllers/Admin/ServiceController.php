@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Support\ImageUploader;
+use App\Support\Slug;
 use App\Support\TextStyles;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
@@ -28,7 +28,7 @@ class ServiceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $data['slug'] = Slug::unique(Service::class, ($data['slug'] ?? null) ?: $data['title'], 'service');
 
         if ($request->hasFile('image')) {
             $data['image'] = ImageUploader::store($request->file('image'), 'services');
@@ -46,8 +46,8 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service): RedirectResponse
     {
-        $data = $this->validated($request, $service->id);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $data = $this->validated($request);
+        $data['slug'] = Slug::unique(Service::class, ($data['slug'] ?? null) ?: $data['title'], 'service', $service->id);
 
         if ($request->boolean('remove_image')) {
             $data['image'] = null;
@@ -67,11 +67,11 @@ class ServiceController extends Controller
         return redirect()->route('admin.services.index')->with('status', 'Service deleted.');
     }
 
-    private function validated(Request $request, ?int $ignoreId = null): array
+    private function validated(Request $request): array
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug' . ($ignoreId ? ",{$ignoreId}" : '')],
+            'slug' => ['nullable', 'string', 'max:255'],
             'icon' => ['nullable', 'string', 'max:100'],
             'short_description' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string'],

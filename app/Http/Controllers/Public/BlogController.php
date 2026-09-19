@@ -30,7 +30,8 @@ class BlogController extends Controller
 
     public function show(Post $post): View
     {
-        abort_unless($post->status === 'published', 404);
+        // Same rule as the listing: drafts and posts scheduled for the future stay hidden.
+        abort_unless($post->status === 'published' && $post->published_at?->lte(now()), 404);
 
         return view('blog.show', [
             'post' => $post,

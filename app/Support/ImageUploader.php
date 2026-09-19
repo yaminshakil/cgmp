@@ -5,6 +5,7 @@ namespace App\Support;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
@@ -28,8 +29,15 @@ class ImageUploader
     public static function storeLogo(UploadedFile $file, string $folder = 'branding', int $maxWidth = 480): string
     {
         if (strtolower($file->getClientOriginalExtension()) === 'svg') {
+            $svg = file_get_contents($file->getRealPath());
+
+            // SVGs are served as-is from /storage, so refuse ones that can run script.
+            if (preg_match('/<\s*script|<\s*foreignObject|\son\w+\s*=|javascript:/i', $svg)) {
+                throw ValidationException::withMessages(['logo' => 'This SVG contains scripts and cannot be uploaded.']);
+            }
+
             $filename = $folder . '/' . Str::random(20) . '.svg';
-            Storage::disk('public')->put($filename, file_get_contents($file->getRealPath()));
+            Storage::disk('public')->put($filename, $svg);
 
             return $filename;
         }

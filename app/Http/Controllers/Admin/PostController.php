@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use App\Support\HtmlSanitizer;
 use App\Support\ImageUploader;
+use App\Support\Slug;
 use App\Support\TextStyles;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -32,7 +33,7 @@ class PostController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $data['slug'] = Slug::unique(Post::class, ($data['slug'] ?? null) ?: $data['title'], 'post');
         $data['author_id'] = $request->user()->id;
 
         if ($request->hasFile('featured_image')) {
@@ -59,7 +60,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $data['slug'] = Slug::unique(Post::class, ($data['slug'] ?? null) ?: $data['title'], 'post', $post->id);
 
         if ($request->boolean('remove_featured_image')) {
             $data['featured_image'] = null;
@@ -104,6 +105,7 @@ class PostController extends Controller
             ['title', 'excerpt', 'body']
         );
         unset($data['featured_image']);
+        $data['body'] = HtmlSanitizer::clean($data['body']);
 
         return $data;
     }
