@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <radialGradient id="bgGrad3" cx="62%" cy="45%" r="80%">
+      <stop offset="0%" stop-color="#eaf4fc"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </radialGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f1f9e9"/>
+      <stop offset="100%" stop-color="#f1f9e9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="doorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d3f6b"/>
+      <stop offset="100%" stop-color="#0a2d4d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bgGrad3)"/>
+
+  <!-- doorway opening with warm welcoming glow -->
+  <rect x="330" y="60" width="220" height="330" fill="#0a2d4d" opacity="0.06"/>
+  <path d="M 330 60 L 620 100 L 620 350 L 330 390 Z" fill="url(#glowGrad)"/>
+
+  <!-- open door (angled) -->
+  <path d="M 330 60 L 460 78 L 460 372 L 330 390 Z" fill="url(#doorGrad)"/>
+  <circle cx="438" cy="230" r="7" fill="#57ad32"/>
+
+  <!-- door frame -->
+  <rect x="318" y="52" width="14" height="346" fill="#062238"/>
+  <rect x="318" y="52" width="234" height="14" fill="#062238"/>
+
+  <!-- clock face floating in the doorway -->
+  <g transform="translate(555 175)">
+    <circle r="58" fill="#ffffff" stroke="#57ad32" stroke-width="5"/>
+    <circle r="4" fill="#0a2d4d"/>
+    <line x1="0" y1="0" x2="0" y2="-36" stroke="#0a2d4d" stroke-width="5" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="26" y2="14" stroke="#57ad32" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="0" cy="-48" r="2.5" fill="#0a2d4d"/>
+    <circle cx="0" cy="48" r="2.5" fill="#0a2d4d"/>
+    <circle cx="48" cy="0" r="2.5" fill="#0a2d4d"/>
+    <circle cx="-48" cy="0" r="2.5" fill="#0a2d4d"/>
+  </g>
+
+  <!-- footprints leading up to the door -->
+  <g fill="#57ad32" opacity="0.55">
+    <ellipse cx="130" cy="380" rx="9" ry="15" transform="rotate(-12 130 380)"/>
+    <ellipse cx="170" cy="360" rx="9" ry="15" transform="rotate(10 170 360)"/>
+    <ellipse cx="205" cy="330" rx="8.5" ry="14" transform="rotate(-10 205 330)"/>
+    <ellipse cx="240" cy="305" rx="8.5" ry="14" transform="rotate(10 240 305)"/>
+    <ellipse cx="272" cy="270" rx="8" ry="13" transform="rotate(-8 272 270)"/>
+  </g>
+
+  <!-- "walk-in welcome" ray lines -->
+  <g stroke="#57ad32" stroke-width="3" opacity="0.3" stroke-linecap="round">
+    <line x1="480" y1="70" x2="520" y2="40"/>
+    <line x1="500" y1="90" x2="545" y2="70"/>
+  </g>
+</svg>

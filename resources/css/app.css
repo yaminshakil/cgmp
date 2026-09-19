@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] { display: none !important; }
+
+html, body { margin: 0; padding: 0; }
+
+/* Extends the top bar's blue background behind the iOS status bar / Dynamic Island */
+.safe-area-top {
+    padding-top: env(safe-area-inset-top);
+}
+
+/* Service card icon: true logo blue-to-red gradient badge (graphic surface, no small text on it) */
+.service-icon-badge {
+    background: linear-gradient(135deg, #0586ca 0%, #cf3a3f 100%);
+    box-shadow: 0 6px 18px rgba(5, 134, 202, 0.35);
+}
+
+/* Admin panel icon badge: blue-only variant (no red) */
+.admin-icon-badge {
+    background: linear-gradient(135deg, #0586ca 0%, #03507d 100%);
+    box-shadow: 0 6px 18px rgba(5, 134, 202, 0.35);
+}
+
+.prose :is(h1, h2, h3, h4) { font-family: theme('fontFamily.serif'); color: #062238; font-weight: 700; margin-top: 1.6em; margin-bottom: 0.5em; }
+.prose p { margin-bottom: 1.1em; }
+.prose ul { list-style: disc; padding-left: 1.4rem; margin-bottom: 1.1em; }
+.prose ol { list-style: decimal; padding-left: 1.4rem; margin-bottom: 1.1em; }
+.prose a { color: theme('colors.brand.blue'); text-decoration: underline; text-underline-offset: 3px; }
+.prose img { border-radius: 1rem; margin-block: 1.5em; }
+.dark .prose :is(h1, h2, h3, h4) { color: #e0e0e0; }
+.dark .prose a { color: #0586ca; }
+
+/* Scroll-reveal (progressively enhanced; hidden only when JS + motion allow it) */
+@media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 0.84, 0.36, 1);
+    }
+    [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Doctor card: soft blue-grey shadow + avatar glow */
+.doctor-card {
+    box-shadow: 0 12px 36px rgba(0, 80, 150, 0.16);
+}
+.doctor-card:hover {
+    box-shadow: 0 18px 48px rgba(0, 80, 150, 0.24);
+}
+.dark .doctor-card {
+    box-shadow: 0 12px 36px rgba(255, 255, 255, 0.08);
+}
+.dark .doctor-card:hover {
+    box-shadow: 0 18px 48px rgba(255, 255, 255, 0.13);
+}
+.avatar-glow {
+    box-shadow: 0 0 20px rgba(5, 134, 202, 0.3);
+}
+
+/* Doctor avatar: static two-tone ring in the true logo blue, no motion */
+.avatar-ring {
+    background: linear-gradient(135deg, #0586ca, #023a58);
+}
+
+/* Button micro-interactions */
+.btn-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.btn-lift:hover {
+    transform: translateY(-2px);
+}
+
+/* Staggered scroll-reveal for card grids: children fade in one after another */
+@media (prefers-reduced-motion: no-preference) {
+    .reveal-stagger > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+    .reveal-stagger > [data-reveal]:nth-child(2) { transition-delay: 90ms; }
+    .reveal-stagger > [data-reveal]:nth-child(3) { transition-delay: 180ms; }
+    .reveal-stagger > [data-reveal]:nth-child(4) { transition-delay: 270ms; }
+    .reveal-stagger > [data-reveal]:nth-child(5) { transition-delay: 360ms; }
+    .reveal-stagger > [data-reveal]:nth-child(6) { transition-delay: 450ms; }
+}
+
+/* Parallax background: image stays fixed to the viewport while the section scrolls over it.
+   Disabled for reduced motion and on touch devices (iOS ignores fixed backgrounds and repaints badly). */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (min-width: 768px) {
+    .parallax-bg {
+        background-attachment: fixed !important;
+    }
+}
+
+/* Dark mode: lift the brand colours used as text so they stay readable on charcoal cards */
+:where(.dark) .text-brand-blue { color: #4fb3ea; }
+:where(.dark) .text-brand-red { color: #ff7a7f; }
+
+/* Hero entrance: content fades up one piece at a time; the photo settles in with a slow zoom */
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes hero-fade-up {
+        from { opacity: 0; transform: translateY(18px); }
+        to { opacity: 1; transform: none; }
+    }
+    @keyframes hero-settle {
+        from { transform: scale(1.08); }
+        to { transform: scale(1); }
+    }
+    .hero-in {
+        opacity: 0;
+        animation: hero-fade-up 0.7s cubic-bezier(0.16, 0.84, 0.36, 1) forwards;
+        animation-delay: var(--hero-delay, 0ms);
+    }
+    .hero-zoom {
+        animation: hero-settle 1.8s cubic-bezier(0.16, 0.84, 0.36, 1) both;
+    }
+}
+
+/* Card hover: gentle glow, and the "Learn more" arrow slides */
+.service-card {
+    transition: opacity 0.7s ease, transform 0.4s cubic-bezier(0.16, 0.84, 0.36, 1), box-shadow 0.3s ease;
+}
+.service-card[data-reveal].is-visible:hover,
+.service-card:not([data-reveal]):hover {
+    transform: translateY(-4px);
+}
+.service-card:hover {
+    box-shadow: 0 18px 40px rgba(4, 105, 159, 0.22);
+}
+.dark .service-card:hover {
+    box-shadow: 0 18px 40px rgba(255, 255, 255, 0.12);
+}
+.service-card .learn-more-arrow {
+    transition: transform 0.25s ease;
+}
+.service-card a:hover .learn-more-arrow {
+    transform: translateX(4px);
+}
