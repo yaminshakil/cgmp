@@ -3,10 +3,11 @@
 <head>
     <script>
         (function () {
-            var stored = localStorage.getItem('cgmp-theme');
-            if (stored === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
+            try {
+                if (localStorage.getItem('cgmp-theme') === 'dark') {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {}
         })();
     </script>
     <meta charset="utf-8">
@@ -42,7 +43,7 @@
             'addressLocality' => setting('address_suburb'),
             'addressCountry' => 'AU',
         ],
-    ], JSON_UNESCAPED_SLASHES) !!}
+    ], JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) !!}
     </script>
 
     @if(setting('favicon_path') || setting('logo_path'))
@@ -65,6 +66,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/700-italic.css">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <noscript><style>[data-reveal], .hero-in { opacity: 1 !important; transform: none !important; }</style></noscript>
     {!! setting('analytics_code') !!}
 </head>
 <body class="bg-white font-sans antialiased dark:bg-[#121212] dark:text-[#e0e0e0]" x-data>
@@ -77,5 +79,13 @@
     </main>
 
     <x-footer />
+    <x-booking-modal />
+
+    @unless(request()->routeIs('booking'))
+        {{-- Mobile-only floating booking button (bottom-right) --}}
+        <div class="mobile-book-fab fixed bottom-5 right-4 z-40 lg:hidden">
+            <x-healthengine-button label="Book Appointment" class="btn-lift flex items-center justify-center gap-2 rounded-full bg-brand-red px-5 py-3.5 text-sm font-bold text-white shadow-xl shadow-black/25 hover:bg-brand-red-dark" />
+        </div>
+    @endunless
 </body>
 </html>

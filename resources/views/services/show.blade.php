@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', $service->title)
-@section('meta_description', $service->short_description)
+@section('meta_description', $service->short_description ?: setting('tagline', ''))
 
 @section('content')
 <section class="px-6 py-24">

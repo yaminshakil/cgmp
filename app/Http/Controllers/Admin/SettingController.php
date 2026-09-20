@@ -35,6 +35,11 @@ class SettingController extends Controller
             'mail_to' => ['nullable', 'email', 'max:255'],
             'mail_username' => ['nullable', 'email', 'max:255'],
             'mail_password' => ['nullable', 'string', 'max:255'],
+            // These end up in href/src attributes, so only real http(s) links are accepted.
+            'healthengine_url' => ['nullable', 'url:http,https', 'max:500'],
+            'facebook_url' => ['nullable', 'url:http,https', 'max:500'],
+            'instagram_url' => ['nullable', 'url:http,https', 'max:500'],
+            'google_map_embed' => ['nullable', 'url:http,https', 'max:1000'],
             'logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
             'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg,ico', 'max:1024'],
         ]);

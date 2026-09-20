@@ -1,13 +1,4 @@
 @props(['class' => '', 'label' => 'Book Appointment'])
 
-@if(setting('healthengine_id'))
-    <script
-        src="https://healthengine.com.au/webplugin/appointments.js"
-        data-he-id="{{ setting('healthengine_id') }}"
-        data-he-button="true"
-        data-he-text="{{ $label }}"
-        data-he-button-class="{{ $class }}"
-    ></script>
-@else
-    <a href="{{ booking_url() }}" @if(booking_is_external()) target="_blank" rel="noopener" @endif class="{{ $class }}">{!! $label !!}</a>
-@endif
+{{-- Opens the HealthEngine booking popup (see x-booking-modal); falls back to a normal link without JS / without an ID. --}}
+<a href="{{ booking_url() }}" data-book-appointment @if(booking_is_external() && ! setting('healthengine_id')) target="_blank" rel="noopener" @endif class="{{ $class }}">{!! $label !!}</a>

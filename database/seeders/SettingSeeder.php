@@ -20,6 +20,7 @@ class SettingSeeder extends Seeder
             'opening_hours' => "Sunday - Friday: 8:30am - 5:30pm\nSaturday: Closed",
             'emergency_note' => 'In a medical emergency, call 000 immediately.',
             'healthengine_url' => '',
+            'healthengine_id' => '98588',
             'facebook_url' => '',
             'instagram_url' => '',
             'google_map_embed' => '',

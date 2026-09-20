@@ -15,7 +15,7 @@
         <a href="{{ route('doctors') }}" class="text-sm font-medium text-brand-blue hover:text-brand-red">&larr; All doctors</a>
 
         <div class="mt-8 grid gap-10 md:grid-cols-[260px_1fr]">
-            <div class="flex flex-col items-center">
+            <div data-reveal="left" class="flex flex-col items-center">
                 <div class="relative h-56 w-56">
                     <div class="avatar-ring absolute -inset-[3px] rounded-full"></div>
                     <div class="avatar-glow relative flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand-blue-vivid to-brand-blue-dark text-5xl font-bold text-white">
@@ -27,12 +27,12 @@
                     </div>
                 </div>
 
-                <a href="{{ booking_url() }}" @if(booking_is_external()) target="_blank" rel="noopener" @endif class="btn-lift mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-3 text-sm font-semibold text-white shadow-lg hover:bg-brand-red-dark">
+                <a href="{{ booking_url() }}" data-book-appointment @if(booking_is_external() && ! setting('healthengine_id')) target="_blank" rel="noopener" @endif class="btn-lift mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-8 py-3 text-sm font-semibold text-white shadow-lg hover:bg-brand-red-dark">
                     Book Appointment
                 </a>
             </div>
 
-            <div>
+            <div data-reveal="right">
                 @if($doctor->qualifications)
                     <p class="text-sm font-semibold text-brand-blue">{{ $doctor->qualifications }}</p>
                 @endif

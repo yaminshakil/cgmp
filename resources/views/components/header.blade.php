@@ -10,7 +10,17 @@
             ['Blog', route('blog.index')],
             ['Contact', route('contact')],
         ];
-    $bookIcon = '<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+    // Menu links can be absolute or site-relative ("/about"), so compare paths rather than full URLs.
+    $isCurrent = function (string $href): bool {
+        $host = parse_url($href, PHP_URL_HOST);
+
+        if ($host && $host !== request()->getHost()) {
+            return false;
+        }
+
+        return rtrim(parse_url($href, PHP_URL_PATH) ?: '/', '/') === rtrim(request()->getPathInfo(), '/');
+    };
+    $bookIcon ='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
 @endphp
 
 <div
@@ -21,7 +31,7 @@
         toggleTheme() {
             this.dark = !this.dark;
             document.documentElement.classList.toggle('dark', this.dark);
-            localStorage.setItem('cgmp-theme', this.dark ? 'dark' : 'light');
+            try { localStorage.setItem('cgmp-theme', this.dark ? 'dark' : 'light'); } catch (e) {}
         }
     }"
     @scroll.window="scrolled = window.scrollY > 24"
@@ -37,8 +47,8 @@
 
             <nav class="hidden items-center gap-1 lg:flex">
                 @foreach($navItems as [$label, $href])
-                    @php $isActive = url()->current() === $href; @endphp
-                    <a href="{{ $href }}" class="relative rounded-lg px-4 py-2.5 text-[15px] font-medium tracking-wide transition-colors duration-200 {{ $isActive ? 'bg-brand-blue-tint font-semibold text-brand-blue dark:bg-white/10 dark:text-[#e0e0e0]' : 'text-[#3b4a5a] hover:bg-gray-50 hover:text-brand-blue dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white' }}">{{ $label }}</a>
+                    @php $isActive = $isCurrent($href); @endphp
+                    <a href="{{ $href }}" class="nav-link relative rounded-lg px-4 py-2.5 text-[15px] font-medium tracking-wide transition-colors duration-200 {{ $isActive ? 'bg-brand-blue-tint font-semibold text-brand-blue dark:bg-white/10 dark:text-[#e0e0e0]' : 'text-[#3b4a5a] hover:bg-gray-50 hover:text-brand-blue dark:text-white/70 dark:hover:bg-white/5 dark:hover:text-white' }}">{{ $label }}</a>
                 @endforeach
             </nav>
 
@@ -84,7 +94,7 @@
             class="flex flex-col gap-1 border-t bg-white px-6 py-4 dark:border-white/10 dark:bg-[#1a1a1a] lg:hidden"
         >
             @foreach($navItems as [$label, $href])
-                <a href="{{ $href }}" class="rounded-lg border-l-4 px-3 py-3 font-medium tracking-wide transition-colors duration-200 hover:bg-brand-blue-tint dark:hover:bg-white/5 {{ url()->current() === $href ? 'border-brand-blue bg-brand-blue-tint font-semibold text-brand-blue dark:border-white dark:bg-white/10 dark:text-[#e0e0e0]' : 'border-transparent text-[#3b4a5a] dark:text-white/70' }}">{{ $label }}</a>
+                <a href="{{ $href }}" class="rounded-lg border-l-4 px-3 py-3 font-medium tracking-wide transition-colors duration-200 hover:bg-brand-blue-tint dark:hover:bg-white/5 {{ $isCurrent($href) ? 'border-brand-blue bg-brand-blue-tint font-semibold text-brand-blue dark:border-white dark:bg-white/10 dark:text-[#e0e0e0]' : 'border-transparent text-[#3b4a5a] dark:text-white/70' }}">{{ $label }}</a>
             @endforeach
             <hr class="my-2 border-t border-gray-200 dark:border-white/10">
             <a href="tel:{{ preg_replace('/\s+/', '', setting('phone', '')) }}" class="flex items-center gap-3 rounded-lg px-3 py-3 font-medium tracking-wide text-[#3b4a5a] transition-colors duration-200 hover:bg-brand-blue-tint dark:text-white/70 dark:hover:bg-white/5">

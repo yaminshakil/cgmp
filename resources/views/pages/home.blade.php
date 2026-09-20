@@ -8,12 +8,13 @@
 
 <section class="relative isolate overflow-hidden rounded-t-2xl bg-brand-blue text-white lg:rounded-none lg:bg-brand-blue-dark">
     <div class="relative mx-auto flex flex-col lg:block lg:min-h-[660px]">
-        <div class="pointer-events-none absolute -left-24 -top-24 hidden h-[420px] w-[420px] rounded-full bg-brand-blue-vivid/25 blur-3xl lg:block" aria-hidden="true"></div>
-        <div class="pointer-events-none absolute right-[8%] bottom-[-10%] hidden h-[320px] w-[320px] rounded-full bg-brand-red/20 blur-3xl lg:block" aria-hidden="true"></div>
-        <div class="relative z-10 order-2 flex items-center overflow-hidden px-6 py-14 lg:absolute lg:inset-y-0 lg:left-0 lg:order-1 lg:w-1/2 lg:px-16 lg:py-12">
-            <div class="relative w-full min-w-0 max-w-xl">
+        <div class="pointer-events-none hero-blob-a absolute -left-24 -top-24 hidden h-[420px] w-[420px] rounded-full bg-brand-blue-vivid/25 blur-3xl lg:block" aria-hidden="true"></div>
+        <div class="hero-blob-b pointer-events-none absolute right-[8%] bottom-[-10%] hidden h-[320px] w-[320px] rounded-full bg-brand-red/20 blur-3xl lg:block" aria-hidden="true"></div>
+        <svg class="hero-ecg pointer-events-none absolute inset-x-0 bottom-10 z-0 hidden h-16 w-full lg:block" viewBox="0 0 1200 60" preserveAspectRatio="none" fill="none" aria-hidden="true"><g class="ecg-track-wide" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M0 30h50l8-6 8 6h12l6-26 10 50 8-24h60l5-12 8 24 6-12h70l8-6 8 6h10l6-20 10 40 8-20h40l5-10 8 20 6-10h60l6-26 10 50 8-24H600"/><path transform="translate(600)" d="M0 30h50l8-6 8 6h12l6-26 10 50 8-24h60l5-12 8 24 6-12h70l8-6 8 6h10l6-20 10 40 8-20h40l5-10 8 20 6-10h60l6-26 10 50 8-24H600"/><path transform="translate(1200)" d="M0 30h50l8-6 8 6h12l6-26 10 50 8-24h60l5-12 8 24 6-12h70l8-6 8 6h10l6-20 10 40 8-20h40l5-10 8 20 6-10h60l6-26 10 50 8-24H600"/><path transform="translate(1800)" d="M0 30h50l8-6 8 6h12l6-26 10 50 8-24h60l5-12 8 24 6-12h70l8-6 8 6h10l6-20 10 40 8-20h40l5-10 8 20 6-10h60l6-26 10 50 8-24H600"/></g></svg>
+        <div class="relative z-10 order-2 flex items-center overflow-hidden px-6 pb-14 pt-2 lg:absolute lg:inset-y-0 lg:left-0 lg:order-1 lg:w-1/2 lg:px-16 lg:py-12">
+            <div class="hero-copy relative w-full min-w-0 max-w-xl">
                 @if(!empty($hero['badge_text']))
-                    <p style="{{ text_style($hero['styles'] ?? null, 'badge_text') }}" class="hero-in font-sans text-[clamp(0.8rem,3.4vw,26px)] font-bold uppercase leading-snug tracking-[0.14em] text-white sm:whitespace-nowrap sm:tracking-[0.2em]">
+                    <p style="{{ text_style($hero['styles'] ?? null, 'badge_text') }}" class="hero-in hero-badge-text font-sans font-bold uppercase leading-snug tracking-[0.14em] text-white sm:whitespace-nowrap sm:tracking-[0.2em]">
                         {{ $hero['badge_text'] }}
                     </p>
                 @endif
@@ -23,11 +24,11 @@
                     $heroHeadingHighlight = implode(' ', array_slice($heroHeadingWords, -2));
                     $heroHeadingLead = implode(' ', array_slice($heroHeadingWords, 0, -2));
                 @endphp
-                <h1 style="--hero-delay: 120ms; {{ text_style($hero['styles'] ?? null, 'heading') }}" class="hero-in mt-5 font-serif text-[clamp(2rem,4.4vw,3.25rem)] font-extrabold leading-[1.12] tracking-tight text-white [text-wrap:balance]">
+                <h1 style="--hero-delay: 120ms; {{ text_style($hero['styles'] ?? null, 'heading') }}" class="hero-in hero-heading mt-5 font-serif font-extrabold leading-[1.12] tracking-tight text-white [text-wrap:balance]">
                     @if($heroHeadingLead !== '')
                         {{ $heroHeadingLead }}
                     @endif
-                    <span class="font-bold italic text-[#ffb4b4]">{{ $heroHeadingHighlight }}</span>
+                    <span class="hero-highlight font-bold italic text-[#ffb4b4]">{{ $heroHeadingHighlight }}</span>
                 </h1>
                 <p style="--hero-delay: 240ms; {{ text_style($hero['styles'] ?? null, 'subheading') }}" class="hero-in mt-5 max-w-md text-base leading-relaxed text-white/80">{{ $hero['subheading'] ?? '' }}</p>
                 @php
@@ -37,9 +38,9 @@
                 @endphp
                 <div style="--hero-delay: 360ms" class="hero-in mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                     @if($heroPrimaryIsDefault)
-                        <x-healthengine-button :label="$heroPrimaryIcon . e($hero['primary_button_text'] ?? 'Book Appointment')" class="btn-lift inline-flex items-center justify-center gap-3 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-brand-red-dark sm:text-base" />
+                        <x-healthengine-button :label="$heroPrimaryIcon . e($hero['primary_button_text'] ?? 'Book Appointment')" class="hero-cta btn-lift inline-flex items-center justify-center gap-3 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-brand-red-dark sm:text-base" />
                     @else
-                        <a href="{{ $heroPrimaryHref }}" class="btn-lift inline-flex items-center justify-center gap-3 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-brand-red-dark sm:text-base">
+                        <a href="{{ $heroPrimaryHref }}" class="hero-cta btn-lift inline-flex items-center justify-center gap-3 rounded-xl bg-brand-red px-6 py-3.5 text-sm font-bold text-white shadow-lg hover:bg-brand-red-dark sm:text-base">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
                             {{ $hero['primary_button_text'] ?? 'Book Appointment' }}
                         </a>
@@ -52,36 +53,29 @@
                 <div style="--hero-delay: 480ms" class="hero-in mt-5 flex flex-wrap gap-2 text-xs sm:text-sm">
                     @foreach(preg_split('/\r\n|\r|\n/', trim(setting('opening_hours', ''))) as $line)
                         @if(trim($line) !== '')
-                            <span class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-white/90">
+                            <span class="hero-chip inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-white/90">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                                 {{ trim($line) }}
                             </span>
                         @endif
                     @endforeach
-                    <span class="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-white/90">
+                    <span class="hero-chip inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-white/90">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         {{ setting('address_line1') }}, {{ setting('address_suburb') }}
                     </span>
                 </div>
             </div>
         </div>
-        <div class="relative order-1 px-6 pb-10 pt-6 lg:absolute lg:inset-y-0 lg:right-0 lg:order-2 lg:w-1/2 lg:px-10 lg:py-10 lg:pb-10">
+        <div class="relative order-1 px-6 pb-20 pt-6 lg:absolute lg:inset-y-0 lg:right-0 lg:order-2 lg:w-1/2 lg:px-10 lg:py-10 lg:pb-10">
             <div class="relative h-[260px] sm:h-[340px] lg:h-full">
-                <div class="absolute inset-0 overflow-hidden rounded-3xl shadow-2xl lg:rounded-[2rem]">
+                <div class="hero-photo absolute inset-0 overflow-hidden rounded-3xl shadow-2xl lg:rounded-[2rem]">
                     <img src="{{ image_url($hero['image'] ?? null, 'images/hero-clinic.jpg') }}" alt="Our clinic team" class="hero-zoom absolute inset-0 h-full w-full object-cover">
                     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent"></div>
                 </div>
 
-                <div class="absolute -bottom-6 left-6 flex max-w-[calc(100%-3rem)] items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-xl sm:max-w-none sm:left-8 sm:px-5 sm:py-4 lg:left-10">
-                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-red-tint text-brand-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                    </span>
-                    <div>
-                        <p class="text-sm font-bold leading-tight text-[#062238]">Bulk Billing Available</p>
-                        <p class="text-xs leading-tight text-gray-500 dark:text-white/50">Same-day appointments &middot; Walk-ins welcome</p>
-                    </div>
-                </div>
+                <img src="{{ asset('images/medicare-bulk-billing.png') }}" alt="Medicare Bulk Billing Practice" width="176" height="136" class="hero-badge absolute -bottom-6 left-6 h-auto w-32 rounded-2xl shadow-xl sm:left-8 sm:w-40 lg:left-10 lg:w-[200px]">
             </div>
+            <svg class="hero-photo-ecg pointer-events-none absolute inset-x-6 bottom-4 h-8 w-[calc(100%-3rem)] text-white lg:hidden" viewBox="0 0 600 60" preserveAspectRatio="none" fill="none" aria-hidden="true"><g class="hero-photo-ecg-track" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M0 30h50l8-6 8 6h12l6-26 10 50 8-24h60l5-12 8 24 6-12h70l8-6 8 6h10l6-20 10 40 8-20h40l5-10 8 20 6-10h60l6-26 10 50 8-24H600"/><path transform="translate(600)" d="M0 30h50l8-6 8 6h12l6-26 10 50 8-24h60l5-12 8 24 6-12h70l8-6 8 6h10l6-20 10 40 8-20h40l5-10 8 20 6-10h60l6-26 10 50 8-24H600"/></g></svg>
         </div>
     </div>
 </section>

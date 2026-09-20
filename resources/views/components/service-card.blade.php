@@ -12,7 +12,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="learn-more-arrow h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </span>
     </a>
-    <a href="{{ booking_url() }}" @if(booking_is_external()) target="_blank" rel="noopener" @endif class="btn-lift mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-2 text-xs font-semibold text-white shadow-lg hover:bg-brand-red-dark sm:mt-5 sm:py-2.5 sm:text-sm">
+    <a href="{{ booking_url() }}" data-book-appointment @if(booking_is_external() && ! setting('healthengine_id')) target="_blank" rel="noopener" @endif class="btn-lift mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-red px-6 py-2 text-xs font-semibold text-white shadow-lg hover:bg-brand-red-dark sm:mt-5 sm:py-2.5 sm:text-sm">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
         Book Appointment
     </a>

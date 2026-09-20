@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title', $page->meta_title ?: $page->title)
-@section('meta_description', $page->meta_description)
+@section('meta_description', $page->meta_description ?: setting('tagline', ''))
 
 @section('content')
 <section class="px-6 py-24">
