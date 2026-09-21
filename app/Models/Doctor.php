@@ -9,7 +9,7 @@ class Doctor extends Model
 {
     protected $fillable = [
         'name', 'role', 'qualifications', 'photo', 'bio', 'years_experience', 'languages',
-        'availability_days', 'sort_order', 'is_active', 'text_styles',
+        'availability_days', 'healthengine_doctor_id', 'sort_order', 'is_active', 'text_styles',
     ];
 
     protected $casts = [

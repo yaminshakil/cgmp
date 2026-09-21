@@ -8,13 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'icon', 'image', 'short_description', 'description', 'sort_order', 'is_active', 'text_styles',
+        'title', 'slug', 'icon', 'image', 'gallery', 'short_description', 'description', 'sort_order', 'is_active', 'text_styles',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'gallery' => 'array',
         'text_styles' => 'array',
     ];
+
+    /** Image shown on cards: the cover, else the first gallery image. */
+    public function coverImage(): ?string
+    {
+        return $this->image ?: ($this->gallery[0] ?? null);
+    }
 
     public function scopeActive(Builder $query): Builder
     {

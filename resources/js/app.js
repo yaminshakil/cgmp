@@ -95,5 +95,5 @@ document.addEventListener('click', (event) => {
     }
 
     event.preventDefault();
-    window.dispatchEvent(new CustomEvent('open-booking'));
+    window.dispatchEvent(new CustomEvent('open-booking', { detail: { doctor: trigger.dataset.doctorId || '' } }));
 });

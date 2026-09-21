@@ -75,6 +75,7 @@ class DoctorController extends Controller
             'languages' => ['nullable', 'string', 'max:255'],
             'availability_days' => ['nullable', 'array'],
             'availability_days.*' => ['string', 'in:sun,mon,tue,wed,thu,fri'],
+            'healthengine_doctor_id' => ['nullable', 'integer', 'min:1'],
             'sort_order' => ['nullable', 'integer'],
             'is_active' => ['nullable', 'boolean'],
             'photo' => ['nullable', 'image', 'max:4096'],

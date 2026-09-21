@@ -1,7 +1,7 @@
 @if(setting('healthengine_id'))
 <div
-    x-data="{ open: false, loaded: false, src: 'https://healthengine.com.au/webplugin/?id={{ e(setting('healthengine_id')) }}&source=webplugin&trigger=button' }"
-    x-on:open-booking.window="open = true; loaded = true"
+    x-data="{ open: false, loaded: false, doctor: '', frame: null, src: 'https://healthengine.com.au/webplugin/?id={{ e(setting('healthengine_id')) }}&source=webplugin&trigger=button', pick() { if (this.frame) this.frame.contentWindow.postMessage('changePractitioner:' + (this.doctor || 0), 'https://healthengine.com.au'); } }"
+    x-on:open-booking.window="doctor = $event.detail?.doctor || ''; open = true; loaded = true; pick()"
     x-on:keydown.escape.window="open = false"
     x-effect="document.documentElement.style.overflow = open ? 'hidden' : ''"
     x-show="open"
@@ -29,7 +29,7 @@
         <div class="relative flex-1 bg-white">
             <div class="absolute inset-0 flex items-center justify-center text-sm text-gray-400">Loading booking&hellip;</div>
             <template x-if="loaded">
-                <iframe :src="src" title="HealthEngine booking" class="relative h-full w-full border-0" allow="payment"></iframe>
+                <iframe :src="src" @load="frame = $el; pick()" title="HealthEngine booking" class="relative h-full w-full border-0" allow="payment"></iframe>
             </template>
         </div>
     </div>

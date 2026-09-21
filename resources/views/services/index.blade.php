@@ -8,11 +8,7 @@
     <p class="mx-auto mt-3 max-w-2xl text-base text-white/85 md:text-lg">Comprehensive healthcare for every stage of life. From routine check-ups to complex care management.</p>
 </section>
 
-<section class="bg-brand-blue-tint dark:bg-[#1a1a1a] px-6 py-16">
-    <div class="reveal-stagger mx-auto grid max-w-6xl gap-7 md:grid-cols-3">
-        @foreach($services as $service)
-            <x-service-card :service="$service" />
-        @endforeach
-    </div>
+<section class="bg-white px-6 py-16 dark:bg-[#141414]">
+    <x-services-grid :services="$services" class="mx-auto max-w-[1200px]" />
 </section>
 @endsection

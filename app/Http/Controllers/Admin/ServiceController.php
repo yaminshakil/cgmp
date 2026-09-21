@@ -34,6 +34,8 @@ class ServiceController extends Controller
             $data['image'] = ImageUploader::store($request->file('image'), 'services');
         }
 
+        $data['gallery'] = $this->storeGallery($request, []);
+
         Service::create($data);
 
         return redirect()->route('admin.services.index')->with('status', 'Service created.');
@@ -55,6 +57,8 @@ class ServiceController extends Controller
             $data['image'] = ImageUploader::store($request->file('image'), 'services');
         }
 
+        $data['gallery'] = $this->storeGallery($request, $service->gallery ?? []);
+
         $service->update($data);
 
         return redirect()->route('admin.services.index')->with('status', 'Service updated.');
@@ -65,6 +69,18 @@ class ServiceController extends Controller
         $service->delete();
 
         return redirect()->route('admin.services.index')->with('status', 'Service deleted.');
+    }
+
+    /** Drops the images ticked for removal, then appends any newly uploaded ones. */
+    private function storeGallery(Request $request, array $existing): array
+    {
+        $gallery = array_values(array_diff($existing, (array) $request->input('remove_gallery', [])));
+
+        foreach ((array) $request->file('gallery', []) as $file) {
+            $gallery[] = ImageUploader::store($file, 'services');
+        }
+
+        return array_slice($gallery, 0, 12);
     }
 
     private function validated(Request $request): array
@@ -78,6 +94,10 @@ class ServiceController extends Controller
             'sort_order' => ['nullable', 'integer'],
             'is_active' => ['nullable', 'boolean'],
             'image' => ['nullable', 'image', 'max:4096'],
+            'gallery' => ['nullable', 'array', 'max:12'],
+            'gallery.*' => ['image', 'max:4096'],
+            'remove_gallery' => ['nullable', 'array'],
+            'remove_gallery.*' => ['string'],
         ]);
 
         $data['is_active'] = $request->boolean('is_active');
@@ -85,7 +105,7 @@ class ServiceController extends Controller
             $request->input('text_styles', []),
             ['title', 'short_description', 'description']
         );
-        unset($data['image']);
+        unset($data['image'], $data['gallery'], $data['remove_gallery']);
 
         return $data;
     }

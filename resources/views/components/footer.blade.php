@@ -15,7 +15,7 @@
 
     <div class="reveal-stagger relative mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 sm:gap-y-12 md:grid-cols-4 md:gap-12">
         <div data-reveal="left" class="col-span-2 md:col-span-1">
-            <span class="footer-logo inline-block"><x-logo light large /></span>
+            <span class="footer-logo flex justify-center md:justify-start"><x-logo light large /></span>
             <p class="mt-5 text-sm leading-6 text-blue-100/70 sm:mt-7 sm:text-base sm:leading-7">{{ setting('footer_text') }}</p>
             <div class="mt-5 flex gap-2 sm:mt-7">
                 @if(setting('facebook_url'))

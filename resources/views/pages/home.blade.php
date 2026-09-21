@@ -137,18 +137,17 @@
 @endif
 
 @if($services->isNotEmpty())
-<section class="parallax-bg relative isolate overflow-hidden px-6 py-24" style="background-image: linear-gradient(rgba(255,255,255,.85) 0%, rgba(255,255,255,.55) 45%, rgba(255,255,255,.3) 100%), url('{{ asset('images/services-bg.png') }}'); background-size: cover; background-position: center;">
-    <div class="pointer-events-none absolute inset-0 hidden dark:block dark:bg-[#121212]/80" aria-hidden="true"></div>
-    <div class="relative">
-        <x-section-title eyebrow="Our Services" title="Comprehensive Care for Your Whole Family" copy="From preventive care to specialist referrals, we provide a full spectrum of medical services tailored to meet the diverse needs of our community." :nowrap="true" copyClass="text-sm font-medium leading-6 sm:text-lg sm:leading-8" copyColor="text-[#062238] dark:text-white/70" />
-        <div class="reveal-stagger mx-auto mt-10 grid max-w-6xl gap-5 md:grid-cols-3">
-            @foreach($services as $service)
-                <x-service-card :service="$service" />
-            @endforeach
+<section class="bg-white px-6 py-20 text-[#062238] dark:bg-[#141414] dark:text-white md:py-28">
+    <div class="mx-auto max-w-[1200px]">
+        <p class="font-mono text-xs uppercase tracking-wider text-[#062238]/55 dark:text-white/50">[Services]</p>
+        <div class="mt-4 grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-16">
+            <h2 class="text-3xl font-light leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">Comprehensive care for your whole family</h2>
+            <p class="max-w-sm text-sm leading-6 text-[#45627d] dark:text-white/60 md:pb-1">From preventive care to specialist referrals, we provide a full spectrum of medical services tailored to our community.</p>
         </div>
-        <div class="mt-8 text-center">
-            <a href="{{ route('services.index') }}" class="btn-lift inline-flex items-center gap-2 rounded-2xl bg-white dark:bg-[#1a1a1a] px-5 py-2.5 text-sm font-semibold text-brand-blue shadow-lg hover:bg-brand-blue-tint dark:hover:bg-white/10 sm:px-6 sm:py-3 sm:text-base">
-                View All Services
+        <x-services-grid :services="$services" class="mt-12" />
+        <div class="mt-10">
+            <a href="{{ route('services.index') }}" class="btn-lift inline-flex items-center gap-2 rounded-xl border border-[#062238]/25 px-6 py-3 text-sm font-semibold hover:bg-[#062238]/5 dark:border-white/25 dark:hover:bg-white/10">
+                View all services
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
         </div>
@@ -157,27 +156,7 @@
 @endif
 
 @if($faqs->isNotEmpty())
-<section class="px-6 py-24">
-    <x-section-title eyebrow="FAQ" title="Frequently Asked Questions" copy="Find answers to the most common questions about our services, booking, and policies." eyebrowClass="px-4 py-1 bg-[#EBF3FC] dark:bg-white/10 text-[#002B49] dark:text-[#e0e0e0] font-bold text-xs rounded-full uppercase tracking-wide" titleStyle="font-family: Georgia, 'Times New Roman', serif;" titleClass="whitespace-nowrap text-[6vw] sm:whitespace-normal sm:text-3xl md:text-4xl lg:text-5xl" copyClass="text-sm leading-6 sm:text-base sm:leading-7" />
-    <div class="mx-auto mt-12 grid max-w-4xl gap-4">
-        @foreach($faqs as $index => $faq)
-            <x-faq-item :question="$faq->question" :answer="$faq->answer" :open="$index === 0" />
-        @endforeach
-        <div class="text-center">
-            <p class="text-sm font-normal text-[#062238] dark:text-[#e0e0e0] sm:text-base">Have more questions? We're happy to help.</p>
-            <div class="mt-4 flex flex-wrap items-center justify-center gap-3 sm:mt-5 sm:gap-4">
-                <a href="{{ route('faq') }}" class="btn-lift inline-flex items-center gap-2 rounded-2xl border border-black dark:border-white/30 px-5 py-2.5 text-sm font-semibold text-black dark:text-[#e0e0e0] sm:px-6 sm:py-3 sm:text-base">
-                    View All FAQs
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-                <a href="{{ route('contact') }}" class="btn-lift inline-flex items-center gap-2 rounded-2xl bg-brand-blue px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-brand-blue-dark sm:px-6 sm:py-3 sm:text-base">
-                    Contact Us
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+<x-faq-section :faqs="$faqs" show-all-link />
 @endif
 
 <section class="bg-white dark:bg-[#1a1a1a] px-6 py-24">

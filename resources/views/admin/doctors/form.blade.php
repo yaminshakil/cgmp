@@ -45,6 +45,11 @@
             </label>
         </div>
 
+        <label class="block">
+            <span class="text-sm font-semibold">HealthEngine doctor ID <span class="text-gray-400">(numeric ID from HealthEngine; when set, this doctor's Book Appointment button preselects them in the booking popup)</span></span>
+            <input type="number" min="1" name="healthengine_doctor_id" value="{{ old('healthengine_doctor_id', $doctor->healthengine_doctor_id) }}" placeholder="e.g. 118736" class="mt-1 w-full rounded-lg border-gray-300">
+        </label>
+
         <div class="block">
             <span class="text-sm font-semibold">Available days</span>
             <div class="mt-2 flex flex-wrap gap-3">

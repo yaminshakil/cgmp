@@ -36,6 +36,32 @@ class AdminCrudTest extends TestCase
         return UploadedFile::fake()->image($name, 600, 400);
     }
 
+    public function test_service_gallery_multi_upload_and_remove(): void
+    {
+        $this->actingAs($this->admin)->post('/admin/services', [
+            'title' => 'Gallery Svc', 'is_active' => 1,
+            'gallery' => [$this->png('a.png'), $this->png('b.png')],
+        ])->assertRedirect('/admin/services')->assertSessionHasNoErrors();
+
+        $s = Service::firstOrFail();
+        $this->assertCount(2, $s->gallery);
+        $this->assertSame($s->gallery[0], $s->coverImage());
+        foreach ($s->gallery as $path) {
+            Storage::disk('public')->assertExists($path);
+        }
+        $this->get("/services/{$s->slug}")->assertOk()->assertSee($s->gallery[1]);
+
+        $keep = $s->gallery[1];
+        $this->actingAs($this->admin)->put("/admin/services/{$s->slug}", [
+            'title' => 'Gallery Svc', 'slug' => $s->slug, 'is_active' => 1,
+            'remove_gallery' => [$s->gallery[0]], 'gallery' => [$this->png('c.png')],
+        ])->assertRedirect('/admin/services')->assertSessionHasNoErrors();
+
+        $s->refresh();
+        $this->assertCount(2, $s->gallery);
+        $this->assertSame($keep, $s->gallery[0]);
+    }
+
     public function test_service_crud_with_image(): void
     {
         $this->actingAs($this->admin)->post('/admin/services', [
