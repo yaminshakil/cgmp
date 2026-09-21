@@ -262,10 +262,10 @@ select:focus {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 60;
-    height: 3px;
+    height: 2px;
     transform: scaleX(0);
     transform-origin: left;
-    background: linear-gradient(90deg, #0586ca, #cf3a3f);
+    background: #0586ca;
     pointer-events: none;
 }
 
