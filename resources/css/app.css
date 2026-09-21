@@ -11,6 +11,16 @@ html, body { margin: 0; padding: 0; }
     padding-top: env(safe-area-inset-top);
 }
 
+/* Book Appointment buttons: logo red with white text (used everywhere a booking button appears) */
+.btn-book {
+    background-color: #cf3a3f;
+    color: #fff;
+    font-weight: 700;
+}
+.btn-book:hover {
+    background-color: #a92e32;
+}
+
 /* Service card icon: true logo blue-to-red gradient badge (graphic surface, no small text on it) */
 .service-icon-badge {
     background: linear-gradient(135deg, #0586ca 0%, #cf3a3f 100%);

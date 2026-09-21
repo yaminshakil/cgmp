@@ -120,7 +120,7 @@
                         <p class="mt-2 whitespace-pre-line text-sm leading-6 text-[#45627d] dark:text-white/70">{{ setting('opening_hours') }}</p>
                     @endif
 
-                    <a href="{{ booking_url() }}" data-book-appointment {!! $bookAttrs !!} class="btn-lift mt-7 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-red px-6 py-4 text-sm font-bold text-white shadow-lg hover:bg-brand-red-dark">
+                    <a href="{{ booking_url() }}" data-book-appointment {!! $bookAttrs !!} class="btn-book btn-lift mt-7 flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-4 text-sm font-bold shadow-lg">
                         Book Now
                     </a>
                     @if(setting('phone'))

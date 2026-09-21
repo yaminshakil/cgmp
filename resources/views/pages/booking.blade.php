@@ -12,7 +12,7 @@
                 <h2 class="font-serif text-2xl font-bold text-[#062238] dark:text-[#e0e0e0]">Book Online with HealthEngine</h2>
                 <p class="mt-4 leading-7 text-[#45627d] dark:text-white/60">See live appointment times and book instantly with our doctors via HealthEngine. You'll be taken to a new tab to complete your booking.</p>
                 <div class="mt-7">
-                    <x-healthengine-button label="Book Appointment" class="inline-flex items-center gap-3 rounded-2xl bg-brand-blue px-7 py-4 font-bold text-white shadow-lg hover:bg-brand-blue-dark transition-colors" />
+                    <x-healthengine-button label="Book Appointment" class="btn-book inline-flex items-center gap-3 rounded-2xl px-7 py-4 font-bold shadow-lg" />
                 </div>
             </div>
         @else

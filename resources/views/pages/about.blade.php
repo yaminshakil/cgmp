@@ -47,7 +47,7 @@
             @endif
 
             <div class="mt-9 flex flex-wrap gap-4">
-                <a href="{{ booking_url() }}" data-book-appointment @if(booking_is_external() && ! setting('healthengine_id')) target="_blank" rel="noopener" @endif class="btn-lift inline-flex items-center gap-2 rounded-[9px] bg-brand-red px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brand-red-dark">
+                <a href="{{ booking_url() }}" data-book-appointment @if(booking_is_external() && ! setting('healthengine_id')) target="_blank" rel="noopener" @endif class="btn-book btn-lift inline-flex items-center gap-2 rounded-[9px] px-6 py-3.5 text-[15px] font-semibold">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     Book an Appointment
                 </a>

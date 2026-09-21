@@ -72,7 +72,7 @@
                     <svg x-show="dark" x-cloak xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
                 </button>
 
-                <x-healthengine-button :label="$bookIcon . 'Book Appointment'" class="btn-lift hidden items-center gap-2 rounded-lg bg-brand-red px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-red-dark hover:shadow-md md:flex" />
+                <x-healthengine-button :label="$bookIcon . 'Book Appointment'" class="btn-book btn-lift hidden items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold shadow-sm hover:shadow-md md:flex" />
 
                 <button aria-label="Open menu" class="relative h-9 w-9 shrink-0 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-white/10 lg:hidden" @click="open = !open">
                     <span class="absolute left-1/2 top-1/2 block h-0.5 w-5 -translate-x-1/2 rounded-full bg-[#062238] transition-all duration-300 dark:bg-white" :class="open ? 'translate-y-0 rotate-45' : '-translate-y-[6px]'"></span>
@@ -114,7 +114,7 @@
                 </span>
                 <span x-text="dark ? 'Light Mode' : 'Dark Mode'"></span>
             </button>
-            <x-healthengine-button :label="$bookIcon . 'Book Appointment'" class="btn-lift mt-2 flex items-center justify-center gap-3 rounded-lg bg-brand-red px-5 py-4 font-semibold text-white" />
+            <x-healthengine-button :label="$bookIcon . 'Book Appointment'" class="btn-book btn-lift mt-2 flex items-center justify-center gap-3 rounded-lg px-5 py-4 font-semibold" />
             <a href="{{ route('emergency') }}" class="mt-2 flex items-center gap-2 px-3 py-2 text-sm font-semibold text-red-600">
                 <span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>
                 Emergency Information

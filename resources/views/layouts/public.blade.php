@@ -84,7 +84,7 @@
     @unless(request()->routeIs('booking'))
         {{-- Mobile-only floating booking button (bottom-right) --}}
         <div class="mobile-book-fab fixed bottom-5 right-4 z-40 lg:hidden">
-            <x-healthengine-button label="Book Appointment" class="btn-lift flex items-center justify-center gap-2 rounded-full bg-brand-red px-5 py-3.5 text-sm font-bold text-white shadow-xl shadow-black/25 hover:bg-brand-red-dark" />
+            <x-healthengine-button label="Book Appointment" class="btn-book btn-lift flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold shadow-xl shadow-black/25" />
         </div>
     @endunless
 </body>
