@@ -17,6 +17,9 @@ class SectionSeeder extends Seeder
             'primary_button_link' => '/book-appointment',
             'secondary_button_text' => 'Our Services',
             'secondary_button_link' => '/services',
+            'review_rating' => '5.0',
+            'review_count' => '1600+',
+            'video_url' => null,
             'image' => null,
         ]);
 

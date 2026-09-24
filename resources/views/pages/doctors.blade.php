@@ -37,7 +37,7 @@
                 x-model="search"
                 placeholder="Search by doctor name..."
                 aria-label="Search by doctor name"
-                class="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#1a1a1a] py-3 pl-11 pr-4 text-sm text-[#062238] dark:text-[#e0e0e0] placeholder:text-gray-400 dark:placeholder:text-white/40 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
+                class="w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#1a1a1a] py-3 pl-11 pr-4 text-sm text-ink dark:text-[#e0e0e0] placeholder:text-gray-400 dark:placeholder:text-white/40 focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
             >
         </div>
 

@@ -11,15 +11,15 @@
         @endif
     </a>
     <div class="flex flex-1 flex-col gap-1.5 p-3 sm:gap-2 sm:p-4">
-        <div class="flex flex-wrap items-center gap-2 text-[11px] text-[#60758d] dark:text-white/60 sm:text-xs">
+        <div class="flex flex-wrap items-center gap-2 text-[11px] text-ink-faint dark:text-white/60 sm:text-xs">
             @if($post->category)
-                <span class="rounded-full bg-brand-blue-tint dark:bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold text-[#062238] dark:text-[#e0e0e0] sm:text-[11px]">{{ $post->category->name }}</span>
+                <span class="rounded-full bg-brand-blue-tint dark:bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold text-ink dark:text-[#e0e0e0] sm:text-[11px]">{{ $post->category->name }}</span>
             @endif
             <time datetime="{{ $post->published_at->toDateString() }}">{{ $post->published_at->format('j M Y') }}</time>
         </div>
         <h3 style="{{ text_style($post->text_styles, 'title') }}" class="font-serif text-sm font-bold leading-snug sm:text-base"><a href="{{ route('blog.show', $post) }}">{{ $post->title }}</a></h3>
         @if($post->excerpt)
-            <p style="{{ text_style($post->text_styles, 'excerpt') }}" class="flex-1 text-xs leading-5 text-[#60758d] dark:text-white/60">{{ $post->excerpt }}</p>
+            <p style="{{ text_style($post->text_styles, 'excerpt') }}" class="flex-1 text-xs leading-5 text-ink-faint dark:text-white/60">{{ $post->excerpt }}</p>
         @endif
         <a href="{{ route('blog.show', $post) }}" class="flex items-center gap-1.5 text-xs font-semibold text-brand-blue sm:text-sm">
             Read article

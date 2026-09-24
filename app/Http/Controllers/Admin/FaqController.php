@@ -52,7 +52,7 @@ class FaqController extends Controller
     private function validated(Request $request): array
     {
         $data = $request->validate([
-            'question' => ['required', 'string', 'max:500'],
+            'question' => ['required', 'string', 'max:255'],
             'answer' => ['required', 'string'],
             'sort_order' => ['nullable', 'integer'],
             'is_active' => ['nullable', 'boolean'],

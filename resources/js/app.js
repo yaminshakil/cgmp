@@ -1,5 +1,3 @@
-import './bootstrap';
-
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
@@ -84,6 +82,89 @@ if (!prefersReducedMotion && 'IntersectionObserver' in window) {
 
     document.querySelectorAll('[data-count-to]').forEach((el) => statsObserver.observe(el));
 }
+
+// Services marquee: auto-scrolls right-to-left and can be grabbed with the mouse to scrub back and forth.
+// The list is duplicated once (see x-services-grid), so wrapping at the halfway point of scrollWidth loops seamlessly.
+document.querySelectorAll('.services-marquee').forEach((marquee) => {
+    const track = marquee.querySelector('.services-marquee-track');
+    if (!track) return;
+
+    let isDown = false;
+    let dragged = false;
+    let hovering = false;
+    let touching = false;
+    let startX = 0;
+    let startScroll = 0;
+
+    const wrap = () => {
+        const half = track.scrollWidth / 2;
+        if (half <= 0) return;
+        if (marquee.scrollLeft >= half) marquee.scrollLeft -= half;
+        else if (marquee.scrollLeft < 0) marquee.scrollLeft += half;
+    };
+
+    if (!prefersReducedMotion) {
+        const pxPerSecond = 45;
+        let last = performance.now();
+
+        const tick = (now) => {
+            const dt = (now - last) / 1000;
+            last = now;
+            if (!isDown && !hovering && !touching) {
+                marquee.scrollLeft += pxPerSecond * dt;
+                wrap();
+            }
+            requestAnimationFrame(tick);
+        };
+
+        requestAnimationFrame(tick);
+    }
+
+    marquee.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+    marquee.addEventListener('touchend', () => { touching = false; }, { passive: true });
+    marquee.addEventListener('touchcancel', () => { touching = false; }, { passive: true });
+
+    marquee.addEventListener('mouseenter', () => { hovering = true; });
+    marquee.addEventListener('mouseleave', () => {
+        hovering = false;
+        isDown = false;
+        marquee.classList.remove('is-dragging');
+    });
+
+    marquee.addEventListener('mousedown', (event) => {
+        isDown = true;
+        dragged = false;
+        startX = event.pageX;
+        startScroll = marquee.scrollLeft;
+        marquee.classList.add('is-dragging');
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDown = false;
+        marquee.classList.remove('is-dragging');
+    });
+
+    marquee.addEventListener('mousemove', (event) => {
+        if (!isDown) return;
+        event.preventDefault();
+        const delta = event.pageX - startX;
+        if (Math.abs(delta) > 3) dragged = true;
+        marquee.scrollLeft = startScroll - delta;
+        wrap();
+    });
+
+    // Swallow the click that follows a drag so it doesn't also navigate the tile the pointer lands on.
+    marquee.addEventListener('click', (event) => {
+        if (dragged) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
+
+    // Tiles are <a> links around <img> elements, both natively draggable; left-click+drag would
+    // otherwise be hijacked into the browser's "drag this link/image" gesture instead of scrolling.
+    marquee.addEventListener('dragstart', (event) => event.preventDefault());
+});
 
 // Every "Book Appointment" button opens the HealthEngine popup instead of navigating away.
 // Without a HealthEngine ID (no modal on the page) the link works normally.

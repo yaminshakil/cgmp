@@ -21,7 +21,7 @@
         class="relative flex h-full w-full flex-col overflow-hidden bg-white shadow-2xl dark:bg-[#1a1a1a] sm:h-[min(760px,92vh)] sm:max-w-3xl sm:rounded-2xl"
     >
         <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3 dark:border-white/10">
-            <span class="font-serif text-base font-bold text-[#062238] dark:text-[#e0e0e0]">Book an Appointment</span>
+            <span class="font-serif text-base font-bold text-ink dark:text-[#e0e0e0]">Book an Appointment</span>
             <button type="button" @click="open = false" aria-label="Close booking" class="flex h-9 w-9 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:text-white/70 dark:hover:bg-white/10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
             </button>

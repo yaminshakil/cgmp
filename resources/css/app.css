@@ -2,6 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Self-hosted fonts: same weights the site actually uses, bundled by Vite instead of
+   fetched from the jsdelivr CDN — one origin, no extra DNS/TLS handshake per visitor. */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/inter-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../fonts/inter-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../fonts/inter-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/inter-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../fonts/montserrat-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/playfair-display-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url('../fonts/playfair-display-latin-800-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Playfair Display';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/playfair-display-latin-700-italic.woff2') format('woff2');
+}
+
 [x-cloak] { display: none !important; }
 
 html, body { margin: 0; padding: 0; }
@@ -9,22 +68,6 @@ html, body { margin: 0; padding: 0; }
 /* Extends the top bar's blue background behind the iOS status bar / Dynamic Island */
 .safe-area-top {
     padding-top: env(safe-area-inset-top);
-}
-
-/* Book Appointment buttons: logo red with white text (used everywhere a booking button appears) */
-.btn-book {
-    background-color: #cf3a3f;
-    color: #fff;
-    font-weight: 700;
-}
-.btn-book:hover {
-    background-color: #a92e32;
-}
-
-/* Service card icon: true logo blue-to-red gradient badge (graphic surface, no small text on it) */
-.service-icon-badge {
-    background: linear-gradient(135deg, #0586ca 0%, #cf3a3f 100%);
-    box-shadow: 0 6px 18px rgba(5, 134, 202, 0.35);
 }
 
 /* Admin panel icon badge: blue-only variant (no red) */
@@ -53,28 +96,6 @@ html, body { margin: 0; padding: 0; }
         opacity: 1;
         transform: none;
     }
-}
-
-/* Doctor card: soft blue-grey shadow + avatar glow */
-.doctor-card {
-    box-shadow: 0 12px 36px rgba(0, 80, 150, 0.16);
-}
-.doctor-card:hover {
-    box-shadow: 0 18px 48px rgba(0, 80, 150, 0.24);
-}
-.dark .doctor-card {
-    box-shadow: 0 12px 36px rgba(255, 255, 255, 0.08);
-}
-.dark .doctor-card:hover {
-    box-shadow: 0 18px 48px rgba(255, 255, 255, 0.13);
-}
-.avatar-glow {
-    box-shadow: 0 0 20px rgba(5, 134, 202, 0.3);
-}
-
-/* Doctor avatar: static two-tone ring in the true logo blue, no motion */
-.avatar-ring {
-    background: linear-gradient(135deg, #0586ca, #023a58);
 }
 
 /* Button micro-interactions */
@@ -107,93 +128,85 @@ html, body { margin: 0; padding: 0; }
 :where(.dark) .text-brand-blue { color: #4fb3ea; }
 :where(.dark) .text-brand-red { color: #ff7a7f; }
 
-/* Hero entrance: content fades up one piece at a time; the photo settles in with a slow zoom */
+/* Hero entrance: content fades up one piece at a time */
 @media (prefers-reduced-motion: no-preference) {
     @keyframes hero-fade-up {
         from { opacity: 0; transform: translateY(18px); }
         to { opacity: 1; transform: none; }
-    }
-    @keyframes hero-settle {
-        from { transform: scale(1.08); }
-        to { transform: scale(1); }
     }
     .hero-in {
         opacity: 0;
         animation: hero-fade-up 0.7s cubic-bezier(0.16, 0.84, 0.36, 1) forwards;
         animation-delay: var(--hero-delay, 0ms);
     }
-    .hero-zoom {
-        animation: hero-settle 5s cubic-bezier(0.16, 0.84, 0.36, 1) both;
+}
+
+/* Hero entrance image: cinematic rise (clip-path wipe-up) + a light-swash shine passing across */
+@media (prefers-reduced-motion: no-preference) {
+    .hero-photo {
+        animation: hero-reveal 2.4s cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
+    }
+    @keyframes hero-reveal {
+        from { clip-path: inset(0 0 100% 0); opacity: 0.35; transform: scale(1.02); }
+        to { clip-path: inset(0 0 0 0); opacity: 1; transform: scale(1); }
+    }
+
+    .hero-photo::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
+        background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.32) 50%, transparent 58%);
+        transform: translateX(-130%);
+        animation: hero-shine 1.8s cubic-bezier(0.4, 0, 0.2, 1) 2.75s forwards;
+    }
+    @keyframes hero-shine {
+        to { transform: translateX(130%); }
+    }
+
+    .hero-photo img {
+        animation: hero-photo-drift 22s ease-in-out infinite alternate 3.4s;
+    }
+    @keyframes hero-photo-drift {
+        from { transform: scale(1); }
+        to { transform: scale(1.08); }
     }
 }
 
-/* Hero text sizes: the heading is derived from the label above it, so it is always smaller.
-   Change --hero-heading-ratio (must stay below 1) to make the heading larger or smaller. */
-.hero-copy {
-    --hero-badge-size: clamp(0.8rem, 3.4vw, 26px);
-    --hero-heading-ratio: 0.85;
-}
+/* Hero text sizes: a small eyebrow label sits above the display heading. */
 .hero-badge-text {
-    font-size: var(--hero-badge-size);
+    font-size: clamp(0.7rem, 1.4vw, 0.8rem);
 }
 .hero-heading {
-    font-size: calc(var(--hero-badge-size) * var(--hero-heading-ratio));
-    /* Clean sans-serif reads better on the blue background than the serif display face */
+    font-size: clamp(2rem, 4.2vw, 3.25rem);
+    /* Clean sans-serif over the serif display face, for a tighter display heading */
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
     font-weight: 700;
     letter-spacing: -0.01em;
-    line-height: 1.25;
+    line-height: 1.15;
 }
 .hero-heading .hero-highlight {
     font-style: normal;
     font-weight: 700;
 }
 
-/* Hero extras: photo wipe-in, floating Medicare badge, drifting glows, underline draw, CTA pulse */
-.hero-chip {
-    transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
-}
-.hero-chip:hover {
-    transform: translateY(-2px);
-    background-color: rgba(255, 255, 255, 0.18);
-    border-color: rgba(255, 255, 255, 0.35);
-}
-.hero-badge {
-    transition: box-shadow 0.3s ease, filter 0.3s ease;
-}
-.hero-badge:hover {
-    filter: brightness(1.05);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
-}
+/* Hero extras: underline draw, CTA pulse, floating icon badges */
 .hero-highlight {
     padding-bottom: 2px;
     background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 100% 3px;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
 }
+.hero-float-badge {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hero-float-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(15, 42, 67, 0.18);
+}
 
 @media (prefers-reduced-motion: no-preference) {
-    @keyframes hero-photo-in {
-        from { opacity: 0; transform: translateX(48px); clip-path: inset(0 0 0 100% round 2rem); }
-        to { opacity: 1; transform: none; clip-path: inset(0 0 0 0 round 2rem); }
-    }
-    @keyframes hero-badge-pop {
-        0% { opacity: 0; transform: translateY(24px) scale(0.6) rotate(-6deg); }
-        60% { opacity: 1; transform: translateY(-6px) scale(1.06) rotate(1deg); }
-        100% { opacity: 1; transform: none; }
-    }
-    @keyframes hero-float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
-    @keyframes hero-drift-a {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(40px, 30px) scale(1.12); }
-    }
-    @keyframes hero-drift-b {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        50% { transform: translate(-36px, -28px) scale(1.15); }
-    }
     @keyframes hero-underline-draw {
         from { background-size: 0% 3px; }
         to { background-size: 100% 3px; }
@@ -203,28 +216,103 @@ html, body { margin: 0; padding: 0; }
         70%, 100% { box-shadow: 0 0 0 14px rgba(207, 58, 63, 0); }
     }
 
-    .hero-photo {
-        animation: hero-photo-in 3s cubic-bezier(0.16, 0.84, 0.36, 1) 0.15s both;
-    }
-    .hero-badge {
-        animation:
-            hero-badge-pop 0.9s cubic-bezier(0.34, 1.4, 0.5, 1) 2.5s both,
-            hero-float 5s ease-in-out 3.4s infinite;
-    }
-    .hero-badge:hover {
-        animation-play-state: running, paused;
-    }
-    .hero-blob-a { animation: hero-drift-a 14s ease-in-out infinite; }
-    .hero-blob-b { animation: hero-drift-b 17s ease-in-out infinite; }
     .hero-highlight {
         animation: hero-underline-draw 0.9s cubic-bezier(0.16, 0.84, 0.36, 1) 0.9s both;
     }
     .hero-cta {
-        animation: hero-cta-pulse 2.8s ease-out 2.2s infinite;
+        /* Pulses a few times on load, then settles — no permanent flashing. */
+        animation: hero-cta-pulse 2.8s ease-out 2.2s 3;
     }
     .hero-cta:hover {
         animation: none;
     }
+}
+
+/* Hero heading: masked word-by-word reveal (each word slides up out of its clip) */
+.hero-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes hero-word-up {
+        from { transform: translateY(115%); }
+        to { transform: none; }
+    }
+
+    .hero-word {
+        display: inline-block;
+        transform: translateY(115%);
+        animation: hero-word-up 0.75s cubic-bezier(0.16, 0.84, 0.36, 1) forwards;
+        animation-delay: var(--word-delay, 0ms);
+        will-change: transform;
+    }
+
+    /* Hero CTA: one-off diagonal shine sweep just after entrance (stops on hover) */
+    @keyframes hero-cta-shine {
+        0% { transform: translateX(-130%) skewX(-20deg); }
+        60%, 100% { transform: translateX(230%) skewX(-20deg); }
+    }
+
+    .hero-cta {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .hero-cta::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 45%;
+        background: linear-gradient(110deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+        transform: translateX(-130%) skewX(-20deg);
+        animation: hero-cta-shine 1.2s ease-in-out 2s 2;
+        pointer-events: none;
+    }
+
+    .hero-cta:hover::before {
+        animation: none;
+    }
+}
+
+/* Hero decorative image: gentle perpetual float with a subtle rock */
+.hero-float {
+    transform: rotate(3deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes hero-float-drift {
+        0%, 100% { transform: rotate(3deg) translateY(0); }
+        50% { transform: rotate(1deg) translateY(-12px); }
+    }
+
+    .hero-float {
+        animation: hero-float-drift 6s ease-in-out infinite;
+    }
+}
+
+/* Services marquee: cards drift right-to-left forever (JS-driven, see app.js) and can be dragged with the mouse;
+   the list is duplicated once so scrolling past the halfway point can wrap seamlessly. */
+.services-marquee {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    overflow-x: auto;
+    cursor: grab;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.services-marquee::-webkit-scrollbar {
+    display: none;
+}
+.services-marquee.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
 }
 
 /* Site-wide motion: page fade-in, smooth scroll, progress bar, hover/press/focus feedback */
@@ -320,7 +408,8 @@ select:focus {
 .service-tile {
     transition: opacity 0.7s ease, transform 0.4s cubic-bezier(0.16, 0.84, 0.36, 1), box-shadow 0.3s ease;
 }
-.service-tile[data-reveal].is-visible:hover {
+.service-tile[data-reveal].is-visible:hover,
+.service-tile:not([data-reveal]):hover {
     transform: translateY(-4px);
     box-shadow: 0 18px 40px rgba(4, 105, 159, 0.22);
 }
@@ -329,21 +418,6 @@ select:focus {
 }
 .service-tile:hover img {
     transform: scale(1.05);
-}
-
-/* Card hover: gentle glow */
-.service-card {
-    transition: opacity 0.7s ease, transform 0.4s cubic-bezier(0.16, 0.84, 0.36, 1), box-shadow 0.3s ease;
-}
-.service-card[data-reveal].is-visible:hover,
-.service-card:not([data-reveal]):hover {
-    transform: translateY(-4px);
-}
-.service-card:hover {
-    box-shadow: 0 18px 40px rgba(4, 105, 159, 0.22);
-}
-.dark .service-card:hover {
-    box-shadow: 0 18px 40px rgba(255, 255, 255, 0.12);
 }
 
 /* Global polish: smooth colour/shadow transitions on interactive elements, form focus glow */
@@ -386,11 +460,11 @@ input:focus, textarea:focus, select:focus {
         background-size: 100% 1px;
     }
 
-    /* Doctor/blog/service images zoom gently inside their frames */
-    .doctor-card img, .service-card img, .hover-lift img {
+    /* Blog images zoom gently inside their frames */
+    .hover-lift img {
         transition: transform 0.6s cubic-bezier(0.16, 0.84, 0.36, 1);
     }
-    .doctor-card:hover img, .service-card:hover img, .hover-lift:hover img {
+    .hover-lift:hover img {
         transform: scale(1.05);
     }
 
@@ -443,7 +517,7 @@ footer h3:hover {
     }
 }
 
-/* ===== Footer: heavy animation ===== */
+/* ===== Footer: gentle ambient touches (kept calm for a medical brand) ===== */
 .footer-fx { z-index: 0; }
 .footer-orb {
     position: absolute;
@@ -458,83 +532,14 @@ footer h3:hover {
     width: 300px; height: 300px; left: 35%; top: 30%;
     background: radial-gradient(closest-side, rgba(5, 134, 202, 0.14), transparent);
 }
-.footer-bubble {
-    position: absolute;
-    bottom: -30px;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 9999px;
-    border: 1px solid rgba(79, 179, 234, 0.35);
-    background: rgba(79, 179, 234, 0.08);
-    opacity: 0;
-}
-.footer-ecg {
-    position: absolute;
-    left: 0; right: 0; bottom: 56px;
-    width: 100%; height: 64px;
-    color: rgba(79, 179, 234, 0.35);
-    opacity: 0.8;
-}
-
 @media (prefers-reduced-motion: no-preference) {
-    @keyframes footer-orb-a { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-140px, -60px) scale(1.25); } }
-    @keyframes footer-orb-b { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(160px, 40px) scale(0.85); } }
-    @keyframes footer-bubble-rise {
-        0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
-        15% { opacity: 1; }
-        50% { transform: translateY(-160px) translateX(14px) scale(1); }
-        100% { transform: translateY(-380px) translateX(-10px) scale(1.15); opacity: 0; }
-    }
-    @keyframes footer-ecg-draw {
-        0% { stroke-dashoffset: 1; opacity: 0; }
-        10% { opacity: 1; }
-        60% { stroke-dashoffset: 0; opacity: 1; }
-        100% { stroke-dashoffset: 0; opacity: 0; }
-    }
-    @keyframes footer-link-in {
-        from { opacity: 0; transform: translateX(-18px); }
-        to { opacity: 1; transform: none; }
-    }
-    @keyframes footer-heartbeat {
-        0%, 100% { transform: scale(1); }
-        8% { transform: scale(1.06); }
-        16% { transform: scale(1); }
-        24% { transform: scale(1.04); }
-        32% { transform: scale(1); }
-    }
-    @keyframes footer-icon-bob {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-4px); }
-    }
+    @keyframes footer-orb-a { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-140px, -60px) scale(1.18); } }
     @keyframes footer-heading-line {
         from { transform: scaleX(0); }
         to { transform: scaleX(1); }
     }
-    @keyframes footer-shine {
-        from { background-position: 200% 0; }
-        to { background-position: -200% 0; }
-    }
 
-    .footer-orb-a { animation: footer-orb-a 13s ease-in-out infinite; }
-    .footer-orb-b { animation: footer-orb-b 17s ease-in-out infinite; }
-    .footer-bubble { animation: footer-bubble-rise var(--dur) ease-in infinite; animation-delay: var(--delay); }
-
-    /* Only the logo mark beats like a heartbeat; the text stays still */
-    .footer-logo .logo-mark { transform-origin: center; animation: footer-heartbeat 3.2s ease-in-out infinite; }
-
-    /* Links cascade in once their column is revealed */
-    footer [data-reveal].is-visible .grid > a,
-    footer [data-reveal].is-visible .grid > .footer-contact-row {
-        animation: footer-link-in 0.6s cubic-bezier(0.16, 0.84, 0.36, 1) both;
-    }
-    footer [data-reveal].is-visible .grid > :nth-child(1) { animation-delay: 0.25s; }
-    footer [data-reveal].is-visible .grid > :nth-child(2) { animation-delay: 0.33s; }
-    footer [data-reveal].is-visible .grid > :nth-child(3) { animation-delay: 0.41s; }
-    footer [data-reveal].is-visible .grid > :nth-child(4) { animation-delay: 0.49s; }
-    footer [data-reveal].is-visible .grid > :nth-child(5) { animation-delay: 0.57s; }
-    footer [data-reveal].is-visible .grid > :nth-child(6) { animation-delay: 0.65s; }
-    footer [data-reveal].is-visible .grid > :nth-child(7) { animation-delay: 0.73s; }
-    footer [data-reveal].is-visible .grid > :nth-child(n+8) { animation-delay: 0.8s; }
+    .footer-orb-a { animation: footer-orb-a 14s ease-in-out infinite; }
 
     /* Headings get an underline that draws in */
     footer h3 { position: relative; padding-bottom: 8px; }
@@ -547,59 +552,23 @@ footer h3:hover {
         transform: scaleX(0);
     }
     footer [data-reveal].is-visible h3::after { animation: footer-heading-line 0.8s cubic-bezier(0.16, 0.84, 0.36, 1) 0.3s forwards; }
-
-    /* Contact icons bob out of sync */
-    footer [data-reveal].is-visible .footer-contact-row svg { animation: footer-icon-bob 2.6s ease-in-out infinite; }
-    footer [data-reveal].is-visible .footer-contact-row:nth-child(2) svg { animation-delay: -0.6s; }
-    footer [data-reveal].is-visible .footer-contact-row:nth-child(3) svg { animation-delay: -1.2s; }
-    footer [data-reveal].is-visible .footer-contact-row:nth-child(4) svg { animation-delay: -1.8s; }
-    footer .footer-contact-row:hover svg { animation-play-state: paused; }
-
-    /* Social icons bounce in and hover with a stronger spin */
-    footer [data-reveal].is-visible a[aria-label] { animation: footer-link-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both; }
-    footer a[aria-label]:hover { transform: translateY(-4px) rotate(-10deg) scale(1.15); }
-
-    /* Back-to-top button bobs */
-    button[aria-label='Back to top'] svg { animation: footer-icon-bob 1.8s ease-in-out infinite; }
 }
 
-/* Hero: heartbeat (ECG) line that draws itself behind the content */
-.hero-ecg {
-    color: rgba(255, 255, 255, 0.28);
-}
-@media (prefers-reduced-motion: no-preference) {
-}
-
-
-/* Mobile hero: continuous scrolling heartbeat under the hero photo (beats of varying height, never ends) */
-.hero-photo-ecg {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-.hero-photo-ecg path { stroke-width: 3; opacity: 0.85; }
+/* Continuous scrolling heartbeat trace (hero photo, desktop hero, footer) */
 @media (prefers-reduced-motion: no-preference) {
     @keyframes ecg-scroll {
         from { transform: translateX(0); }
         to { transform: translateX(-600px); }
     }
-    .hero-photo-ecg-track { animation: ecg-scroll 6s linear infinite; }
-}
-
-/* Continuous scrolling heartbeat for the wide hero + footer lines */
-.footer-ecg path, .hero-ecg path { stroke-width: 2.5; }
-@media (prefers-reduced-motion: no-preference) {
     @keyframes ecg-scroll-wide {
         from { transform: translateX(0); }
         to { transform: translateX(-1200px); }
     }
-    .ecg-track-wide { animation: ecg-scroll-wide 12s linear infinite; }
+    .hero-photo-ecg-track { animation: ecg-scroll 32s linear infinite; }
+    .ecg-track-wide { animation: ecg-scroll-wide 56s linear infinite; }
 }
 
-/* Slower scroll speeds */
-@media (prefers-reduced-motion: no-preference) {
-    .ecg-track-wide { animation-duration: 56s; }
-    .hero-photo-ecg-track { animation-duration: 32s; }
-}
+.hero-ecg path, .footer-ecg path { stroke-width: 2.5; }
 
 /* Footer heartbeat sits under the social icons */
 .footer-col-ecg {

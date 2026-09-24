@@ -44,6 +44,13 @@ class ContactController extends Controller
         }
 
         // No-JS fallback: return to the form rather than the top of the page.
-        return redirect(url()->previous(route('contact')).'#contact-form')->with('status', $status);
+        $returnTo = route('contact');
+        $previous = url()->previous() ?: $returnTo;
+        // Only follow a referer on this same host to avoid open-redirecting to external sites.
+        if (parse_url($previous, PHP_URL_HOST) === null || parse_url($previous, PHP_URL_HOST) === parse_url($returnTo, PHP_URL_HOST)) {
+            $returnTo = $previous;
+        }
+
+        return redirect($returnTo.'#contact-form')->with('status', $status);
     }
 }

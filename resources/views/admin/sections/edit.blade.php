@@ -41,13 +41,61 @@
                     <input type="text" name="secondary_button_link" value="{{ old('secondary_button_link', $hero['secondary_button_link'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
                 </label>
             </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+                <label class="block">
+                    <span class="text-sm font-semibold">Review rating</span>
+                    <input type="text" name="review_rating" placeholder="5.0" value="{{ old('review_rating', $hero['review_rating'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
+                </label>
+                <label class="block">
+                    <span class="text-sm font-semibold">Review count</span>
+                    <input type="text" name="review_count" placeholder="1600+" value="{{ old('review_count', $hero['review_count'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
+                </label>
+            </div>
+            <label class="block">
+                <span class="text-sm font-semibold">Video URL</span>
+                <input type="text" name="video_url" placeholder="https://www.youtube.com/watch?v=..." value="{{ old('video_url', $hero['video_url'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
+                <span class="mt-1 block text-xs text-gray-500">Optional. YouTube, Vimeo or a direct .mp4/.webm link. Shows a play button on the hero image.</span>
+            </label>
+            <label class="block">
+                <span class="text-sm font-semibold">Background color</span>
+                <div class="mt-1 flex items-center gap-3">
+                    <input type="color" name="bg_color" value="{{ old('bg_color', $hero['bg_color'] ?? '#023a58') }}" class="h-10 w-16 rounded-lg border-gray-300 p-1">
+                    <label class="flex items-center gap-2 text-sm text-gray-600">
+                        <input type="checkbox" name="use_bg_color" value="1" @checked(old('use_bg_color', !empty($hero['bg_color']))) class="rounded border-gray-300">
+                        Use this solid color instead of the default gradient
+                    </label>
+                </div>
+            </label>
+            <label class="block">
+                <span class="text-sm font-semibold">Text color</span>
+                <div class="mt-1 flex items-center gap-3">
+                    <input type="color" name="text_color" value="{{ old('text_color', $hero['text_color'] ?? '#062238') }}" class="h-10 w-16 rounded-lg border-gray-300 p-1">
+                    <label class="flex items-center gap-2 text-sm text-gray-600">
+                        <input type="checkbox" name="use_text_color" value="1" @checked(old('use_text_color', !empty($hero['text_color']))) class="rounded border-gray-300">
+                        Use this custom text color instead of automatic
+                    </label>
+                </div>
+            </label>
             <label class="block">
                 <span class="text-sm font-semibold">Hero image</span>
                 <input type="file" name="image" accept="image/*" class="mt-1 w-full">
+                <span class="mt-1 block text-xs text-gray-500">Shown on desktop &amp; larger screens.</span>
                 @if(!empty($hero['image']))
                     <img src="{{ image_url($hero['image']) }}" class="mt-2 h-24 rounded-lg object-cover" alt="">
                     <label class="mt-2 flex items-center gap-2 text-sm text-gray-600">
                         <input type="checkbox" name="remove_image" value="1" class="rounded border-gray-300">
+                        Remove image
+                    </label>
+                @endif
+            </label>
+            <label class="block">
+                <span class="text-sm font-semibold">Mobile hero image</span>
+                <input type="file" name="mobile_image" accept="image/*" class="mt-1 w-full">
+                <span class="mt-1 block text-xs text-gray-500">Optional. Shown on mobile instead of the hero image.</span>
+                @if(!empty($hero['mobile_image']))
+                    <img src="{{ image_url($hero['mobile_image']) }}" class="mt-2 h-24 rounded-lg object-cover" alt="">
+                    <label class="mt-2 flex items-center gap-2 text-sm text-gray-600">
+                        <input type="checkbox" name="remove_mobile_image" value="1" class="rounded border-gray-300">
                         Remove image
                     </label>
                 @endif

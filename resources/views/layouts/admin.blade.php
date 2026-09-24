@@ -93,10 +93,10 @@
         <div class="min-w-0 flex-1">
             <header class="flex items-center justify-between gap-3 border-b-2 border-brand-blue bg-white px-4 py-4 shadow-[0_2px_16px_rgba(15,42,67,0.08)] sm:px-6">
                 <div class="flex min-w-0 items-center gap-3">
-                    <button aria-label="Open menu" class="shrink-0 text-[#062238] lg:hidden" @click="sidebarOpen = true">
+                    <button aria-label="Open menu" class="shrink-0 text-ink lg:hidden" @click="sidebarOpen = true">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
                     </button>
-                    <h1 class="truncate font-serif text-lg font-bold text-[#062238] sm:text-xl">@yield('title', 'Dashboard')</h1>
+                    <h1 class="truncate font-serif text-lg font-bold text-ink sm:text-xl">@yield('title', 'Dashboard')</h1>
                 </div>
                 <div class="flex shrink-0 items-center gap-2.5 text-sm text-gray-600">
                     <span class="admin-icon-badge flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white">

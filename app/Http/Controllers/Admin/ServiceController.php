@@ -52,8 +52,10 @@ class ServiceController extends Controller
         $data['slug'] = Slug::unique(Service::class, ($data['slug'] ?? null) ?: $data['title'], 'service', $service->id);
 
         if ($request->boolean('remove_image')) {
+            ImageUploader::delete($service->image);
             $data['image'] = null;
         } elseif ($request->hasFile('image')) {
+            ImageUploader::delete($service->image);
             $data['image'] = ImageUploader::store($request->file('image'), 'services');
         }
 
@@ -66,6 +68,9 @@ class ServiceController extends Controller
 
     public function destroy(Service $service): RedirectResponse
     {
+        ImageUploader::delete($service->image);
+        array_map(ImageUploader::delete(...), $service->gallery ?? []);
+
         $service->delete();
 
         return redirect()->route('admin.services.index')->with('status', 'Service deleted.');
@@ -74,7 +79,10 @@ class ServiceController extends Controller
     /** Drops the images ticked for removal, then appends any newly uploaded ones. */
     private function storeGallery(Request $request, array $existing): array
     {
-        $gallery = array_values(array_diff($existing, (array) $request->input('remove_gallery', [])));
+        $removed = (array) $request->input('remove_gallery', []);
+        array_map(ImageUploader::delete(...), array_intersect($existing, $removed));
+
+        $gallery = array_values(array_diff($existing, $removed));
 
         foreach ((array) $request->file('gallery', []) as $file) {
             $gallery[] = ImageUploader::store($file, 'services');
@@ -89,7 +97,7 @@ class ServiceController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255'],
             'icon' => ['nullable', 'string', 'max:100'],
-            'short_description' => ['nullable', 'string', 'max:500'],
+            'short_description' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'sort_order' => ['nullable', 'integer'],
             'is_active' => ['nullable', 'boolean'],

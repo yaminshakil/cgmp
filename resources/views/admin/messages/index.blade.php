@@ -30,4 +30,8 @@
     </table>
     </div>
 </div>
+
+<div class="mt-4">
+    {{ $messages->links() }}
+</div>
 @endsection

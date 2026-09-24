@@ -34,22 +34,46 @@ class SectionController extends Controller
             'primary_button_link' => ['nullable', 'string', 'max:255'],
             'secondary_button_text' => ['nullable', 'string', 'max:100'],
             'secondary_button_link' => ['nullable', 'string', 'max:255'],
+            'review_rating' => ['nullable', 'string', 'max:20'],
+            'review_count' => ['nullable', 'string', 'max:20'],
+            'video_url' => ['nullable', 'url:http,https', 'max:500'],
             'image' => ['nullable', 'image', 'max:6144'],
+            'mobile_image' => ['nullable', 'image', 'max:6144'],
+            'bg_color' => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'text_color' => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
         ]);
 
         $current = section_data('hero');
-        unset($data['image']);
+        unset($data['image'], $data['mobile_image']);
 
         // Drop javascript:/data: links; only http(s), mailto, tel and site-relative URLs are kept.
         $data['primary_button_link'] = HtmlSanitizer::safeUrl($data['primary_button_link'] ?? null);
         $data['secondary_button_link'] = HtmlSanitizer::safeUrl($data['secondary_button_link'] ?? null);
+        $data['video_url'] = HtmlSanitizer::safeUrl($data['video_url'] ?? null);
+
+        // The color picker always submits a value, so a checkbox opts into using it;
+        // left unchecked, the section keeps its default gradient background.
+        $data['bg_color'] = $request->boolean('use_bg_color') ? ($data['bg_color'] ?? null) : null;
+        $data['text_color'] = $request->boolean('use_text_color') ? ($data['text_color'] ?? null) : null;
 
         if ($request->boolean('remove_image')) {
+            ImageUploader::delete($current['image'] ?? null);
             $data['image'] = null;
         } elseif ($request->hasFile('image')) {
+            ImageUploader::delete($current['image'] ?? null);
             $data['image'] = ImageUploader::store($request->file('image'), 'sections', 2000);
         } else {
             $data['image'] = $current['image'] ?? null;
+        }
+
+        if ($request->boolean('remove_mobile_image')) {
+            ImageUploader::delete($current['mobile_image'] ?? null);
+            $data['mobile_image'] = null;
+        } elseif ($request->hasFile('mobile_image')) {
+            ImageUploader::delete($current['mobile_image'] ?? null);
+            $data['mobile_image'] = ImageUploader::store($request->file('mobile_image'), 'sections', 1600);
+        } else {
+            $data['mobile_image'] = $current['mobile_image'] ?? null;
         }
 
         $data['styles'] = TextStyles::sanitizeAll(
@@ -93,8 +117,10 @@ class SectionController extends Controller
         ];
 
         if ($request->boolean('remove_image')) {
+            ImageUploader::delete($current['image'] ?? null);
             $payload['image'] = null;
         } elseif ($request->hasFile('image')) {
+            ImageUploader::delete($current['image'] ?? null);
             $payload['image'] = ImageUploader::store($request->file('image'), 'sections', 2000);
         }
 

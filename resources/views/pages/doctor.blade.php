@@ -2,13 +2,12 @@
 
 @section('title', $doctor->name)
 @section('meta_description', \Illuminate\Support\Str::limit(strip_tags($doctor->bio ?: $doctor->role . ' at ' . setting('clinic_name')), 155))
+@section('og_image', $doctor->photo ? image_url($doctor->photo) : asset('images/hero-team.jpg'))
 
 @php
     $activeDays = $doctor->availability_days ?? [];
     $allDays = ['sun' => 'Sun', 'mon' => 'Mon', 'tue' => 'Tue', 'wed' => 'Wed', 'thu' => 'Thu', 'fri' => 'Fri', 'sat' => 'Sat'];
     $initials = collect(explode(' ', $doctor->name))->map(fn ($w) => mb_substr($w, 0, 1))->implode('');
-    $bookAttrs = ($doctor->healthengine_doctor_id ? 'data-doctor-id="' . $doctor->healthengine_doctor_id . '" ' : '')
-        . (booking_is_external() && ! setting('healthengine_id') ? 'target="_blank" rel="noopener"' : '');
     $address = trim(setting('address_line1') . ', ' . setting('address_suburb'), ', ');
 @endphp
 
@@ -28,7 +27,7 @@
                     @endif
                 </div>
 
-                <ul class="mt-6 space-y-3 text-sm text-[#45627d] dark:text-white/70">
+                <ul class="mt-6 space-y-3 text-sm text-ink-muted dark:text-white/70">
                     @if($address !== '')
                         <li class="flex gap-3">
                             <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -50,7 +49,7 @@
                 </ul>
 
                 @if($doctor->languageList())
-                    <ul class="mt-6 list-disc space-y-1 pl-5 text-sm text-[#45627d] marker:text-brand-blue dark:text-white/70">
+                    <ul class="mt-6 list-disc space-y-1 pl-5 text-sm text-ink-muted marker:text-brand-blue dark:text-white/70">
                         @foreach($doctor->languageList() as $language)
                             <li>{{ $language }}</li>
                         @endforeach
@@ -60,7 +59,7 @@
 
             {{-- Name, summary, availability --}}
             <div data-reveal>
-                <h1 style="{{ text_style($doctor->text_styles, 'name') }}" class="font-serif text-4xl font-extrabold leading-tight tracking-tight text-[#062238] dark:text-[#e0e0e0] md:text-5xl">{{ $doctor->name }}</h1>
+                <h1 style="{{ text_style($doctor->text_styles, 'name') }}" class="font-serif text-4xl font-extrabold leading-tight tracking-tight text-ink dark:text-[#e0e0e0] md:text-5xl">{{ $doctor->name }}</h1>
                 @if($doctor->qualifications || $doctor->role)
                     <p class="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-blue">
                         {{ collect([$doctor->role, $doctor->qualifications])->filter()->implode(' · ') }}
@@ -78,18 +77,18 @@
                         @if($doctor->bio)
                             <div class="p-6 sm:p-7">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-[#6b8199] dark:text-white/50">About</p>
-                                <p style="{{ text_style($doctor->text_styles, 'bio') }}" class="mt-2 text-[15px] leading-7 text-[#45627d] dark:text-white/75">{{ $doctor->bio }}</p>
+                                <p style="{{ text_style($doctor->text_styles, 'bio') }}" class="mt-2 text-[15px] leading-7 text-ink-muted dark:text-white/75">{{ $doctor->bio }}</p>
                             </div>
                         @endif
                     </div>
                 @endif
 
                 @if(count($activeDays))
-                <h2 class="mt-10 font-serif text-xl font-bold text-[#062238] dark:text-[#e0e0e0]">Consulting days</h2>
+                <h2 class="mt-10 font-serif text-xl font-bold text-ink dark:text-[#e0e0e0]">Consulting days</h2>
                 <div class="mt-4 grid grid-cols-7 gap-2 sm:gap-3">
                     @foreach($allDays as $value => $label)
                         @php $on = in_array($value, $activeDays); @endphp
-                        <div class="rounded-2xl px-1 py-4 text-center {{ $on ? 'bg-[#062238] text-white dark:bg-brand-blue' : 'bg-[#f4f6f8] text-[#9aabbd] dark:bg-white/5 dark:text-white/30' }}">
+                        <div class="rounded-2xl px-1 py-4 text-center {{ $on ? 'bg-ink text-white dark:bg-brand-blue' : 'bg-[#f4f6f8] text-[#9aabbd] dark:bg-white/5 dark:text-white/30' }}">
                             <p class="text-[10px] font-bold uppercase tracking-wider sm:text-xs">{{ $label }}</p>
                             <p class="mt-1 text-[10px] {{ $on ? 'text-white/70' : '' }}">{{ $on ? 'In' : 'Off' }}</p>
                         </div>
@@ -102,7 +101,7 @@
             {{-- Booking card --}}
             <aside data-reveal="right">
                 <div class="rounded-[24px] bg-[#f4f6f8] p-6 dark:bg-white/5 lg:sticky lg:top-28">
-                    <h2 class="font-serif text-xl font-bold text-[#062238] dark:text-[#e0e0e0]">Book an Appointment</h2>
+                    <h2 class="font-serif text-xl font-bold text-ink dark:text-[#e0e0e0]">Book an Appointment</h2>
                     <p class="mt-1 text-sm text-[#6b8199] dark:text-white/50">with {{ $doctor->name }}</p>
 
                     @if(count($activeDays))
@@ -110,17 +109,17 @@
                     <div class="mt-3 grid grid-cols-7 gap-1.5">
                         @foreach($allDays as $value => $label)
                             @php $on = in_array($value, $activeDays); @endphp
-                            <span title="{{ $label }}" class="flex aspect-square items-center justify-center rounded-xl text-xs font-bold {{ $on ? 'bg-[#062238] text-white dark:bg-brand-blue' : 'bg-white text-[#b3c0cf] dark:bg-white/10 dark:text-white/30' }}">{{ mb_substr($label, 0, 1) }}</span>
+                            <span title="{{ $label }}" class="flex aspect-square items-center justify-center rounded-xl text-xs font-bold {{ $on ? 'bg-ink text-white dark:bg-brand-blue' : 'bg-white text-[#b3c0cf] dark:bg-white/10 dark:text-white/30' }}">{{ mb_substr($label, 0, 1) }}</span>
                         @endforeach
                     </div>
                     @endif
 
                     @if(setting('opening_hours'))
                         <p class="mt-6 text-[10px] font-bold uppercase tracking-[0.18em] text-[#6b8199] dark:text-white/50">Clinic hours</p>
-                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-[#45627d] dark:text-white/70">{{ setting('opening_hours') }}</p>
+                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-ink-muted dark:text-white/70">{{ setting('opening_hours') }}</p>
                     @endif
 
-                    <a href="{{ booking_url() }}" data-book-appointment {!! $bookAttrs !!} class="btn-book btn-lift mt-7 flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-4 text-sm font-bold shadow-lg">
+                    <a href="{{ booking_url() }}" data-book-appointment @if($doctor->healthengine_doctor_id) data-doctor-id="{{ $doctor->healthengine_doctor_id }}" @endif @if(booking_is_external() && ! setting('healthengine_id')) target="_blank" rel="noopener" @endif class="bg-brand-red text-white hover:bg-brand-red-dark btn-lift mt-7 flex w-full items-center justify-center gap-2 rounded-2xl px-6 py-4 text-sm font-bold shadow-lg">
                         Book Now
                     </a>
                     @if(setting('phone'))

@@ -33,7 +33,9 @@ Route::get('/fees-info', [PageController::class, 'show'])->defaults('page', 'fee
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 Route::get('/dashboard', function () {
-    return redirect()->route('admin.dashboard');
+    return auth()->user()->isStaff()
+        ? redirect()->route('admin.dashboard')
+        : redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

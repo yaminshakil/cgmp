@@ -2,15 +2,6 @@
     <div class="footer-fx pointer-events-none absolute inset-0" aria-hidden="true">
         <span class="footer-orb footer-orb-a"></span>
         <span class="footer-orb footer-orb-b"></span>
-        <span class="footer-bubble" style="left:6%;--size:14px;--dur:15s;--delay:-9s"></span>
-        <span class="footer-bubble" style="left:16%;--size:10px;--dur:19s;--delay:-13s"></span>
-        <span class="footer-bubble" style="left:27%;--size:18px;--dur:14s;--delay:-8s"></span>
-        <span class="footer-bubble" style="left:38%;--size:8px;--dur:21s;--delay:-15s"></span>
-        <span class="footer-bubble" style="left:49%;--size:16px;--dur:17s;--delay:-11s"></span>
-        <span class="footer-bubble" style="left:60%;--size:12px;--dur:20s;--delay:-14s"></span>
-        <span class="footer-bubble" style="left:71%;--size:20px;--dur:15s;--delay:-9s"></span>
-        <span class="footer-bubble" style="left:82%;--size:9px;--dur:18s;--delay:-12s"></span>
-        <span class="footer-bubble" style="left:92%;--size:15px;--dur:16s;--delay:-10s"></span>
     </div>
 
     <div class="reveal-stagger relative mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 sm:gap-y-12 md:grid-cols-4 md:gap-12">
@@ -83,7 +74,7 @@
                 </div>
                 <div class="footer-contact-row group flex items-start gap-2.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0 text-brand-red transition-transform duration-300 group-hover:scale-125" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                    <span class="text-blue-100/70">{{ setting('contact_email') }}</span>
+                    <span class="break-all text-blue-100/70">{{ setting('contact_email') }}</span>
                 </div>
                 <div class="footer-contact-row group flex items-start gap-2.5">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-4 w-4 shrink-0 text-brand-red transition-transform duration-300 group-hover:scale-125" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>

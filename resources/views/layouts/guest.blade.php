@@ -7,13 +7,6 @@
 
         <title>{{ __('Sign In') }} | {{ setting('clinic_name', config('app.name', 'Laravel')) }}</title>
 
-        <link rel="preconnect" href="https://cdn.jsdelivr.net">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/400.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/500.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/600.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/700.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/700.css">
-
         @if(setting('favicon_path') || setting('logo_path'))
             <link rel="icon" href="{{ image_url(setting('favicon_path') ?: setting('logo_path')) }}">
         @endif
@@ -21,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-[#062238] antialiased">
+    <body class="font-sans text-ink antialiased">
         <div class="flex min-h-screen flex-col items-center justify-center bg-brand-blue-tint px-6 py-12">
             <a href="/" class="mb-8">
                 <x-logo />
@@ -32,7 +25,7 @@
                     {{ $slot }}
                 </div>
 
-                <p class="mt-6 text-center text-sm text-[#60758d]">
+                <p class="mt-6 text-center text-sm text-ink-faint">
                     <a href="/" class="font-semibold text-brand-blue hover:underline">&larr; Back to website</a>
                 </p>
             </div>

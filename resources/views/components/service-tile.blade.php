@@ -1,8 +1,13 @@
-@props(['service', 'index' => 0, 'info' => true])
+@props(['service', 'index' => 0, 'info' => true, 'reveal' => true, 'decorative' => false])
 
 @php $cover = $service->coverImage(); @endphp
 
-<a href="{{ route('services.show', $service) }}" class="service-tile group relative block aspect-[4/3] overflow-hidden sm:aspect-[7/10] rounded-[18px] {{ $info ? 'bg-gradient-to-br from-[#cfe1ec] via-[#dfe6f2] to-[#eadfea] text-[#1c2b3a] shadow-sm ring-1 ring-black/5' : 'bg-gradient-to-br from-brand-blue-dark to-brand-blue text-white' }}" data-reveal>
+<a
+    href="{{ route('services.show', $service) }}"
+    class="service-tile group relative block aspect-[4/3] overflow-hidden sm:aspect-[7/10] rounded-[18px] {{ $info ? 'bg-gradient-to-br from-[#cfe1ec] via-[#dfe6f2] to-[#eadfea] text-[#1c2b3a] shadow-sm ring-1 ring-black/5' : 'bg-gradient-to-br from-brand-blue-dark to-brand-blue text-white' }}"
+    @if($reveal) data-reveal @endif
+    @if($decorative) aria-hidden="true" tabindex="-1" @endif
+>
     @if($info)
         <div class="absolute inset-x-3 top-3 h-[52%] overflow-hidden rounded-xl bg-white/50 ring-1 ring-black/5">
             @if($cover)
@@ -13,9 +18,9 @@
         </div>
         <div class="absolute inset-x-0 bottom-0 p-5">
             <span class="block text-right font-mono text-xs text-[#1c2b3a]/60">/{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
-            <h3 style="{{ text_style($service->text_styles, 'title') }}" class="mt-2 text-[15px] font-semibold leading-snug">{{ $service->title }}</h3>
+            <h3 style="{{ text_style($service->text_styles, 'title') }}" class="mt-2 text-2xl font-bold leading-snug">{{ $service->title }}</h3>
             @if($service->short_description)
-                <p style="{{ text_style($service->text_styles, 'short_description') }}" class="mt-2 line-clamp-3 text-[13px] leading-5 text-[#1c2b3a]/70">{{ $service->short_description }}</p>
+                <p style="{{ text_style($service->text_styles, 'short_description') }}" class="mt-2 hidden line-clamp-3 text-[13px] leading-5 text-[#1c2b3a]/70 sm:block">{{ $service->short_description }}</p>
             @endif
         </div>
     @else
@@ -26,7 +31,7 @@
         @endif
         <div class="absolute inset-0 bg-[#04121f]/35 transition-colors duration-300 group-hover:bg-[#04121f]/55"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4 text-center">
-            <h3 style="{{ text_style($service->text_styles, 'title') }}" class="text-[15px] font-medium leading-snug drop-shadow">{{ $service->title }}</h3>
+            <h3 style="{{ text_style($service->text_styles, 'title') }}" class="text-2xl font-bold leading-snug drop-shadow">{{ $service->title }}</h3>
         </div>
     @endif
 </a>

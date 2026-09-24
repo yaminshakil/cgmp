@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="text-center">
-        <h1 class="font-serif text-2xl font-bold text-[#062238]">Welcome Back</h1>
-        <p class="mt-2 text-sm text-[#60758d]">Sign in to manage {{ setting('clinic_name', 'the practice') }}'s website.</p>
+        <h1 class="font-serif text-2xl font-bold text-ink">Welcome Back</h1>
+        <p class="mt-2 text-sm text-ink-faint">Sign in to manage {{ setting('clinic_name', 'the practice') }}'s website.</p>
     </div>
 
     <!-- Session Status -->
@@ -38,10 +38,10 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-between">
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
             <label for="remember_me" class="inline-flex items-center gap-2">
                 <input id="remember_me" type="checkbox" class="rounded border-slate-300 text-brand-blue focus:ring-brand-blue/30" name="remember">
-                <span class="text-sm text-[#60758d]">{{ __('Remember me') }}</span>
+                <span class="text-sm text-ink-faint">{{ __('Remember me') }}</span>
             </label>
 
             @if (Route::has('password.request'))

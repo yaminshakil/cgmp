@@ -63,8 +63,10 @@ class PostController extends Controller
         $data['slug'] = Slug::unique(Post::class, ($data['slug'] ?? null) ?: $data['title'], 'post', $post->id);
 
         if ($request->boolean('remove_featured_image')) {
+            ImageUploader::delete($post->featured_image);
             $data['featured_image'] = null;
         } elseif ($request->hasFile('featured_image')) {
+            ImageUploader::delete($post->featured_image);
             $data['featured_image'] = ImageUploader::store($request->file('featured_image'), 'posts');
         }
 
@@ -79,6 +81,7 @@ class PostController extends Controller
 
     public function destroy(Post $post): RedirectResponse
     {
+        ImageUploader::delete($post->featured_image);
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('status', 'Post deleted.');

@@ -16,7 +16,7 @@
     <div class="flex items-center gap-1.5">
         <button
             type="button"
-            @click="idx = idx <= 0 ? 0 : idx - 1"
+            @click="idx = idx <= 0 ? idx : idx - 1"
             class="flex h-7 w-7 items-center justify-center rounded-md border border-gray-300 bg-white text-xs font-bold text-gray-600 hover:bg-gray-100"
             aria-label="Decrease text size"
         >A-</button>

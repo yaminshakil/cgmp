@@ -26,14 +26,14 @@ class ImageUploader
     /**
      * Stores logos as PNG (or raw SVG) instead of JPEG so transparent backgrounds survive.
      */
-    public static function storeLogo(UploadedFile $file, string $folder = 'branding', int $maxWidth = 480): string
+    public static function storeLogo(UploadedFile $file, string $folder = 'branding', int $maxWidth = 480, string $field = 'logo'): string
     {
         if (strtolower($file->getClientOriginalExtension()) === 'svg') {
             $svg = file_get_contents($file->getRealPath());
 
             // SVGs are served as-is from /storage, so refuse ones that can run script.
             if (preg_match('/<\s*script|<\s*foreignObject|\son\w+\s*=|javascript:/i', $svg)) {
-                throw ValidationException::withMessages(['logo' => 'This SVG contains scripts and cannot be uploaded.']);
+                throw ValidationException::withMessages([$field => 'This SVG contains scripts and cannot be uploaded.']);
             }
 
             $filename = $folder . '/' . Str::random(20) . '.svg';
@@ -50,5 +50,13 @@ class ImageUploader
         Storage::disk('public')->put($filename, (string) $image->toPng());
 
         return $filename;
+    }
+
+    /** Removes a previously stored image, e.g. after it's replaced or the record is deleted. */
+    public static function delete(?string $path): void
+    {
+        if ($path) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }

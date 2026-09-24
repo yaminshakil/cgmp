@@ -18,8 +18,8 @@
                 '<div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">' +
                     '<svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
                 '</div>' +
-                '<h3 id="popup-title" class="mt-5 font-serif text-2xl font-bold text-[#062238] dark:text-[#e0e0e0]">Message Sent</h3>' +
-                '<p class="mt-2 text-[#062238]/70 dark:text-[#e0e0e0]/70"></p>' +
+                '<h3 id="popup-title" class="mt-5 font-serif text-2xl font-bold text-ink dark:text-[#e0e0e0]">Message Sent</h3>' +
+                '<p class="mt-2 text-ink/70 dark:text-[#e0e0e0]/70"></p>' +
                 '<button type="button" class="btn-lift mt-6 w-full rounded-xl bg-brand-blue-darker px-6 py-3 font-bold text-white hover:bg-brand-blue-dark">OK</button>' +
             '</div>';
         overlay.querySelector('p').textContent = text;
@@ -48,7 +48,7 @@
         if (ok) return showPopup(text);
         var toast = document.createElement('div');
         toast.setAttribute('role', ok ? 'status' : 'alert');
-        toast.className = 'fixed right-4 top-4 z-[100] flex max-w-sm items-start gap-3 rounded-xl px-5 py-4 text-sm font-semibold text-white shadow-2xl transition duration-300 translate-x-8 opacity-0 sm:right-6 sm:top-6 ' + (ok ? 'bg-emerald-600' : 'bg-brand-red');
+        toast.className = 'fixed right-4 top-4 z-[100] flex max-w-[calc(100vw-2rem)] items-start gap-3 rounded-xl px-5 py-4 text-sm font-semibold text-white shadow-2xl transition duration-300 translate-x-8 opacity-0 sm:right-6 sm:top-6 sm:max-w-sm ' + (ok ? 'bg-emerald-600' : 'bg-brand-red');
         toast.innerHTML = '<svg class="mt-0.5 h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (ok ? '<path d="M20 6 9 17l-5-5"/>' : '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>') + '</svg><span></span>';
         toast.querySelector('span').textContent = text;
         document.body.appendChild(toast);

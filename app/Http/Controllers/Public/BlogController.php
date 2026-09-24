@@ -35,7 +35,7 @@ class BlogController extends Controller
 
         return view('blog.show', [
             'post' => $post,
-            'related' => Post::query()->published()->where('id', '!=', $post->id)
+            'related' => Post::query()->published()->with('category')->where('id', '!=', $post->id)
                 ->where('category_id', $post->category_id)
                 ->take(3)->get(),
         ]);

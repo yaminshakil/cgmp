@@ -23,11 +23,11 @@
     <meta property="og:title" content="@yield('title', setting('clinic_name'))">
     <meta property="og:description" content="@yield('meta_description', setting('tagline'))">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/hero-team.jpg') }}">
+    <meta property="og:image" content="@yield('og_image', asset('images/hero-team.jpg'))">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', setting('clinic_name'))">
     <meta name="twitter:description" content="@yield('meta_description', setting('tagline'))">
-    <meta name="twitter:image" content="{{ asset('images/hero-team.jpg') }}">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/hero-team.jpg'))">
 
     <script type="application/ld+json">
     {!! json_encode([
@@ -54,17 +54,6 @@
         <link rel="apple-touch-icon" href="/apple-icon.png">
     @endif
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/400.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/500.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/600.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5/700.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5/600.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/600.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/700.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/800.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/playfair-display@5/700-italic.css">
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <noscript><style>[data-reveal], .hero-in { opacity: 1 !important; transform: none !important; }</style></noscript>
     {!! setting('analytics_code') !!}
@@ -83,8 +72,8 @@
 
     @unless(request()->routeIs('booking'))
         {{-- Mobile-only floating booking button (bottom-right) --}}
-        <div class="mobile-book-fab fixed bottom-5 right-4 z-40 lg:hidden">
-            <x-healthengine-button label="Book Appointment" class="btn-book btn-lift flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold shadow-xl shadow-black/25" />
+        <div x-data="{ fabHidden: false }" x-on:mobile-nav.window="fabHidden = $event.detail.open" x-show="!fabHidden" x-cloak x-transition.opacity.duration.200ms class="mobile-book-fab fixed bottom-5 right-4 z-40 lg:hidden">
+            <x-healthengine-button label="Book Appointment" class="bg-brand-red text-white hover:bg-brand-red-dark btn-lift flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold shadow-xl shadow-black/25" />
         </div>
     @endunless
 </body>

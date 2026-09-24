@@ -2,23 +2,24 @@
 
 @section('title', $post->title)
 @section('meta_description', $post->excerpt ?: setting('tagline', ''))
+@section('og_image', $post->featured_image ? image_url($post->featured_image) : asset('images/hero-team.jpg'))
 
 @section('content')
 <section class="px-6 py-24">
     <article class="mx-auto max-w-3xl" data-reveal>
-        <div class="flex flex-wrap items-center gap-3 text-sm text-[#60758d] dark:text-white/60">
+        <div class="flex flex-wrap items-center gap-3 text-sm text-ink-faint dark:text-white/60">
             @if($post->category)
-                <span class="rounded-full bg-brand-blue-tint dark:bg-white/10 px-3 py-1 text-xs font-semibold text-[#062238] dark:text-[#e0e0e0]">{{ $post->category->name }}</span>
+                <span class="rounded-full bg-brand-blue-tint dark:bg-white/10 px-3 py-1 text-xs font-semibold text-ink dark:text-[#e0e0e0]">{{ $post->category->name }}</span>
             @endif
             <time datetime="{{ $post->published_at->toDateString() }}">{{ $post->published_at->format('j F Y') }}</time>
         </div>
-        <h1 style="{{ text_style($post->text_styles, 'title') }}" class="mt-5 font-serif text-4xl font-bold text-[#062238] dark:text-[#e0e0e0] md:text-5xl">{{ $post->title }}</h1>
+        <h1 style="{{ text_style($post->text_styles, 'title') }}" class="mt-5 font-serif text-4xl font-bold text-ink dark:text-[#e0e0e0] md:text-5xl">{{ $post->title }}</h1>
 
         @if($post->featured_image)
             <img src="{{ image_url($post->featured_image) }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="mt-8 aspect-[16/8] w-full rounded-3xl object-cover shadow-xl">
         @endif
 
-        <div style="{{ text_style($post->text_styles, 'body') }}" class="prose mt-10 max-w-none text-lg leading-8 text-[#45627d] dark:text-white/60">
+        <div style="{{ text_style($post->text_styles, 'body') }}" class="prose mt-10 max-w-none text-lg leading-8 text-ink-muted dark:text-white/60">
             {!! $post->body !!}
         </div>
 
@@ -30,7 +31,7 @@
                 setTimeout(() => this.copied = false, 2000);
             }
         }">
-            <span class="text-sm font-semibold text-[#60758d] dark:text-white/60">Share:</span>
+            <span class="text-sm font-semibold text-ink-faint dark:text-white/60">Share:</span>
             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" rel="noopener" aria-label="Share on Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-blue-tint dark:bg-white/10 text-brand-blue hover:bg-brand-blue hover:text-white hover:scale-110 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6v1.9H16l-.4 2.9h-2.1v7A10 10 0 0 0 22 12Z"/></svg>
             </a>
@@ -49,7 +50,7 @@
 
     @if($related->isNotEmpty())
         <div class="mx-auto mt-20 max-w-6xl">
-            <h2 class="font-serif text-2xl font-bold text-[#062238] dark:text-[#e0e0e0]">Related posts</h2>
+            <h2 class="font-serif text-2xl font-bold text-ink dark:text-[#e0e0e0]">Related posts</h2>
             <div class="reveal-stagger mt-8 grid gap-7 md:grid-cols-3">
                 @foreach($related as $item)
                     <x-post-card :post="$item" />

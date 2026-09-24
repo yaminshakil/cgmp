@@ -47,8 +47,10 @@ class DoctorController extends Controller
         $data = $this->validated($request);
 
         if ($request->boolean('remove_photo')) {
+            ImageUploader::delete($doctor->photo);
             $data['photo'] = null;
         } elseif ($request->hasFile('photo')) {
+            ImageUploader::delete($doctor->photo);
             $data['photo'] = ImageUploader::store($request->file('photo'), 'doctors');
         }
 
@@ -59,6 +61,7 @@ class DoctorController extends Controller
 
     public function destroy(Doctor $doctor): RedirectResponse
     {
+        ImageUploader::delete($doctor->photo);
         $doctor->delete();
 
         return redirect()->route('admin.doctors.index')->with('status', 'Doctor deleted.');
@@ -69,7 +72,7 @@ class DoctorController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'role' => ['nullable', 'string', 'max:255'],
-            'qualifications' => ['nullable', 'string', 'max:500'],
+            'qualifications' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
             'years_experience' => ['nullable', 'string', 'max:50'],
             'languages' => ['nullable', 'string', 'max:255'],

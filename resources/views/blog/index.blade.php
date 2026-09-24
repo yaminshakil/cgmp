@@ -13,15 +13,15 @@
         @if(request('category'))
             <input type="hidden" name="category" value="{{ request('category') }}">
         @endif
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-[#60758d] dark:text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="search" name="q" value="{{ request('q') }}" placeholder="Search articles&hellip;" class="w-full border-0 p-0 text-sm focus:ring-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-ink-faint dark:text-white/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" name="q" value="{{ request('q') }}" placeholder="Search articles&hellip;" class="min-w-0 w-0 flex-1 border-0 p-0 text-sm focus:ring-0">
         <button type="submit" class="btn-lift shrink-0 rounded-full bg-brand-blue px-4 py-1.5 text-sm font-semibold text-white">Search</button>
     </form>
 
     <div class="mx-auto mt-6 flex max-w-6xl flex-wrap items-center justify-center gap-3">
-        <a href="{{ route('blog.index', request()->only('q')) }}" class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 {{ request('category') ? 'bg-brand-blue-tint dark:bg-white/10 text-[#062238] dark:text-[#e0e0e0] hover:bg-brand-blue hover:text-white' : 'bg-brand-blue text-white' }}">All</a>
+        <a href="{{ route('blog.index', request()->only('q')) }}" class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 {{ request('category') ? 'bg-brand-blue-tint dark:bg-white/10 text-ink dark:text-[#e0e0e0] hover:bg-brand-blue hover:text-white' : 'bg-brand-blue text-white' }}">All</a>
         @foreach($categories as $category)
-            <a href="{{ route('blog.index', ['category' => $category->slug] + request()->only('q')) }}" class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 {{ request('category') === $category->slug ? 'bg-brand-blue text-white' : 'bg-brand-blue-tint dark:bg-white/10 text-[#062238] dark:text-[#e0e0e0] hover:bg-brand-blue hover:text-white' }}">{{ $category->name }}</a>
+            <a href="{{ route('blog.index', ['category' => $category->slug] + request()->only('q')) }}" class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 {{ request('category') === $category->slug ? 'bg-brand-blue text-white' : 'bg-brand-blue-tint dark:bg-white/10 text-ink dark:text-[#e0e0e0] hover:bg-brand-blue hover:text-white' }}">{{ $category->name }}</a>
         @endforeach
     </div>
 
@@ -35,7 +35,7 @@
             {{ $posts->links() }}
         </div>
     @else
-        <p class="mt-14 text-center text-[#60758d] dark:text-white/60">No posts yet — check back soon.</p>
+        <p class="mt-14 text-center text-ink-faint dark:text-white/60">No posts yet — check back soon.</p>
     @endif
 </section>
 @endsection

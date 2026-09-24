@@ -7,10 +7,19 @@
         'user-round' => 'M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM20 21a8 8 0 0 0-16 0',
         'heart-pulse' => 'M19 14c1.5-1.6 3-3.4 3-5.5A5.5 5.5 0 0 0 12 5a5.5 5.5 0 0 0-10 3.5c0 3.8 3.4 6.9 8.6 11.5L12 21l1.5-1.4M3.5 9.5h2l2-4 3 8 2-5h6',
         'activity' => 'M22 12h-4l-3 9L9 3l-3 9H2',
+        'baby' => [
+            'M9 12h.01',
+            'M15 12h.01',
+            'M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5',
+            'M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1',
+        ],
     ];
     $path = $paths[$name] ?? $paths['stethoscope'];
+    $paths = (array) $path;
 @endphp
 
 <svg xmlns="http://www.w3.org/2000/svg" {{ $attributes->merge(['class' => 'h-6 w-6']) }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="{{ $path }}"/>
+    @foreach($paths as $d)
+        <path d="{{ $d }}"/>
+    @endforeach
 </svg>

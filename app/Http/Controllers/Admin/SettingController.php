@@ -41,7 +41,7 @@ class SettingController extends Controller
             'instagram_url' => ['nullable', 'url:http,https', 'max:500'],
             'google_map_embed' => ['nullable', 'url:http,https', 'max:1000'],
             'logo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
-            'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg,ico', 'max:1024'],
+            'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:1024'],
         ]);
 
         foreach (self::KEYS as $key) {
@@ -56,8 +56,10 @@ class SettingController extends Controller
         }
 
         if ($request->boolean('remove_logo')) {
+            ImageUploader::delete(Setting::query()->where('key', 'logo_path')->value('value'));
             Setting::query()->updateOrCreate(['key' => 'logo_path'], ['value' => null]);
         } elseif ($request->hasFile('logo')) {
+            ImageUploader::delete(Setting::query()->where('key', 'logo_path')->value('value'));
             Setting::query()->updateOrCreate(
                 ['key' => 'logo_path'],
                 ['value' => ImageUploader::storeLogo($request->file('logo'))]
@@ -65,11 +67,13 @@ class SettingController extends Controller
         }
 
         if ($request->boolean('remove_favicon')) {
+            ImageUploader::delete(Setting::query()->where('key', 'favicon_path')->value('value'));
             Setting::query()->updateOrCreate(['key' => 'favicon_path'], ['value' => null]);
         } elseif ($request->hasFile('favicon')) {
+            ImageUploader::delete(Setting::query()->where('key', 'favicon_path')->value('value'));
             Setting::query()->updateOrCreate(
                 ['key' => 'favicon_path'],
-                ['value' => ImageUploader::storeLogo($request->file('favicon'), 'branding', 256)]
+                ['value' => ImageUploader::storeLogo($request->file('favicon'), 'branding', 256, 'favicon')]
             );
         }
 
