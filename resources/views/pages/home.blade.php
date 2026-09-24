@@ -149,11 +149,11 @@
                     <div class="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-3 py-4 sm:px-5 sm:py-5 lg:hidden">
                         @if(!empty($hero['badge_text']))
                             <div class="self-start rounded-2xl bg-gradient-to-r from-white/75 via-white/50 to-white/20 px-3 py-2 sm:px-4">
-                                <p style="--hero-delay: 60ms; {{ $heroTextColorCss }}" class="hero-in text-left text-[clamp(1.4rem,6.2vw,2.1rem)] font-extrabold uppercase leading-snug tracking-tight drop-shadow-sm {{ $heroBadgeTextClass }}">{{ $hero['badge_text'] }}</p>
+                                <p style="--hero-delay: 60ms; {{ $heroTextColorCss }}" class="hero-in text-left text-[clamp(1.15rem,5vw,1.65rem)] font-extrabold uppercase leading-snug tracking-tight drop-shadow-sm {{ $heroBadgeTextClass }}">{{ $hero['badge_text'] }}</p>
                             </div>
                         @endif
-                        <div class="mt-auto self-start rounded-2xl bg-gradient-to-r from-white/95 via-white/85 to-white/70 px-3 py-2 shadow-lg backdrop-blur-sm sm:px-4">
-                            <h1 style="--hero-delay: 120ms; font-family: 'Montserrat', 'Poppins', 'Century Gothic', ui-sans-serif, sans-serif; {{ $heroTextColorCss }}" class="hero-in drop-shadow-sm mt-2 text-left font-bold leading-[1.25] tracking-normal {{ $heroTextClass }} text-[clamp(0.8rem,3.9vw,1.15rem)] [text-wrap:balance]">
+                        <div class="mt-auto w-[calc(100%_-_7.5rem)] self-start rounded-2xl bg-gradient-to-r from-white/95 via-white/85 to-white/70 px-3 py-2 shadow-lg backdrop-blur-sm sm:w-[calc(100%_-_12rem)] sm:px-4">
+                            <h1 style="--hero-delay: 120ms; font-family: 'Montserrat', 'Poppins', 'Century Gothic', ui-sans-serif, sans-serif; {{ $heroTextColorCss }}" class="hero-in drop-shadow-sm mt-2 text-left font-bold leading-[1.3] tracking-normal {{ $heroTextClass }} text-[clamp(0.58rem,2.6vw,0.78rem)] [text-wrap:balance] sm:text-[clamp(0.68rem,2.4vw,0.95rem)]">
                                 @foreach($heroHeadingLeadWords as $wordIndex => $word)
                                     <span class="hero-mask" style="--word-delay: {{ 180 + $wordIndex * 55 }}ms"><span class="hero-word">{{ $word }}</span></span>
                                 @endforeach
