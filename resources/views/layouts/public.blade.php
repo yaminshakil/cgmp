@@ -23,11 +23,11 @@
     <meta property="og:title" content="@yield('title', setting('clinic_name'))">
     <meta property="og:description" content="@yield('meta_description', setting('tagline'))">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="@yield('og_image', asset('images/hero-team.jpg'))">
+    <meta property="og:image" content="@yield('og_image', asset('images/clinic-exterior.jpg'))">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', setting('clinic_name'))">
     <meta name="twitter:description" content="@yield('meta_description', setting('tagline'))">
-    <meta name="twitter:image" content="@yield('og_image', asset('images/hero-team.jpg'))">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/clinic-exterior.jpg'))">
 
     <script type="application/ld+json">
     {!! json_encode([
@@ -46,13 +46,7 @@
     ], JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP) !!}
     </script>
 
-    @if(setting('favicon_path') || setting('logo_path'))
-        <link rel="icon" href="{{ image_url(setting('favicon_path') ?: setting('logo_path')) }}">
-        <link rel="apple-touch-icon" href="{{ image_url(setting('favicon_path') ?: setting('logo_path')) }}">
-    @else
-        <link rel="icon" href="/icon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-icon.png">
-    @endif
+    @include('partials.favicon')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <noscript><style>[data-reveal], .hero-in { opacity: 1 !important; transform: none !important; }</style></noscript>
@@ -69,12 +63,5 @@
 
     <x-footer />
     <x-booking-modal />
-
-    @unless(request()->routeIs('booking'))
-        {{-- Mobile-only floating booking button (bottom-right) --}}
-        <div x-data="{ fabHidden: false }" x-on:mobile-nav.window="fabHidden = $event.detail.open" x-show="!fabHidden" x-cloak x-transition.opacity.duration.200ms class="mobile-book-fab fixed bottom-5 right-4 z-40 lg:hidden">
-            <x-healthengine-button label="Book Appointment" class="bg-brand-red text-white hover:bg-brand-red-dark btn-lift flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-bold shadow-xl shadow-black/25" />
-        </div>
-    @endunless
 </body>
 </html>

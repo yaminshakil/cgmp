@@ -21,6 +21,7 @@
         return rtrim(parse_url($href, PHP_URL_PATH) ?: '/', '/') === rtrim(request()->getPathInfo(), '/');
     };
     $bookIcon ='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+    $mobileBookLabel = '<span class="max-[350px]:hidden">Book Appointment</span><span class="min-[351px]:hidden">Book</span>';
 @endphp
 
 <div
@@ -37,7 +38,7 @@
     @scroll.window="scrolled = window.scrollY > 24"
 >
     <header id="site-header" class="relative z-10 border-b border-gray-100 bg-white/95 backdrop-blur transition-colors duration-300 dark:border-white/10 dark:bg-[#1a1a1a]/95" :class="scrolled ? 'shadow-[0_6px_24px_rgba(15,42,67,0.16)] dark:shadow-[0_6px_24px_rgba(255,255,255,0.10)]' : 'shadow-[0_2px_16px_rgba(15,42,67,0.08)] dark:shadow-[0_2px_16px_rgba(255,255,255,0.07)]'">
-        <div class="flex items-center justify-between gap-4 pl-4 pr-6 site-header__inner transition-[padding] duration-300" :class="scrolled ? 'py-2' : 'py-3'">
+        <div class="flex items-center justify-between gap-2 pl-4 pr-3 sm:gap-4 sm:pr-6 site-header__inner transition-[padding] duration-300" :class="scrolled ? 'py-2' : 'py-3'">
             <a
                 href="{{ route('home') }}"
                 @click="if (window.location.pathname === '{{ parse_url(route('home'), PHP_URL_PATH) ?: '/' }}') { $event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }"
@@ -52,7 +53,7 @@
                 @endforeach
             </nav>
 
-            <div class="ml-auto flex items-center gap-3 lg:ml-0">
+            <div class="ml-auto flex items-center gap-2 sm:gap-3 lg:ml-0">
                 <a href="tel:{{ preg_replace('/\s+/', '', setting('phone', '')) }}" class="hidden items-center gap-2 text-sm font-semibold text-ink-soft transition-colors hover:text-brand-blue dark:text-white/80 dark:hover:text-white xl:flex">
                     <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-blue-tint text-brand-blue dark:bg-white/10 dark:text-[#e0e0e0]">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -74,10 +75,15 @@
 
                 <x-healthengine-button :label="$bookIcon . 'Book Appointment'" class="bg-brand-red text-white hover:bg-brand-red-dark btn-lift hidden items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-semibold shadow-sm hover:shadow-md xl:gap-3 xl:px-4 md:flex" />
 
-                <button aria-label="Open menu" class="relative h-9 w-9 shrink-0 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-white/10 lg:hidden" @click="open = !open; $dispatch('mobile-nav', { open: open })">
-                    <span class="absolute left-1/2 top-1/2 block h-0.5 w-5 -translate-x-1/2 rounded-full bg-ink transition-all duration-300 dark:bg-white" :class="open ? 'translate-y-0 rotate-45' : '-translate-y-[6px]'"></span>
-                    <span class="absolute left-1/2 top-1/2 block h-0.5 w-5 -translate-x-1/2 rounded-full bg-ink transition-all duration-200 dark:bg-white" :class="open ? 'opacity-0' : 'opacity-100'"></span>
-                    <span class="absolute left-1/2 top-1/2 block h-0.5 w-5 -translate-x-1/2 rounded-full bg-ink transition-all duration-300 dark:bg-white" :class="open ? 'translate-y-0 -rotate-45' : 'translate-y-[6px]'"></span>
+                {{-- Phones only: the booking button slides in once the page is scrolled, when the logo text has collapsed to make room (tablets and up use the full button above) --}}
+                <div x-show="scrolled" x-cloak x-transition.opacity.duration.200ms class="md:hidden">
+                    <x-healthengine-button :label="$mobileBookLabel" class="bg-brand-red text-white hover:bg-brand-red-dark btn-lift inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-bold shadow-sm" />
+                </div>
+
+                <button aria-label="Open menu" class="relative h-11 w-11 shrink-0 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-white/10 lg:hidden" @click="open = !open; $dispatch('mobile-nav', { open: open })">
+                    <span class="absolute left-1/2 top-1/2 block h-[3px] w-7 -translate-x-1/2 rounded-full bg-ink transition-all duration-300 dark:bg-white" :class="open ? 'translate-y-0 rotate-45' : '-translate-y-[8px]'"></span>
+                    <span class="absolute left-1/2 top-1/2 block h-[3px] w-7 -translate-x-1/2 rounded-full bg-ink transition-all duration-200 dark:bg-white" :class="open ? 'opacity-0' : 'opacity-100'"></span>
+                    <span class="absolute left-1/2 top-1/2 block h-[3px] w-7 -translate-x-1/2 rounded-full bg-ink transition-all duration-300 dark:bg-white" :class="open ? 'translate-y-0 -rotate-45' : 'translate-y-[8px]'"></span>
                 </button>
             </div>
         </div>
