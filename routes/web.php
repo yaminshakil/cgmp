@@ -12,6 +12,7 @@ use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\PageController;
 use App\Http\Controllers\Public\ServiceController;
 use App\Http\Controllers\Public\SitemapController;
+use App\Http\Controllers\Public\RobotsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -31,6 +32,7 @@ Route::get('/privacy-policy', [PageController::class, 'show'])->defaults('page',
 Route::get('/terms', [PageController::class, 'show'])->defaults('page', 'terms')->name('pages.terms');
 Route::get('/fees-info', [PageController::class, 'show'])->defaults('page', 'fees-info')->name('pages.fees-info');
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', RobotsController::class)->name('robots');
 
 Route::get('/dashboard', function () {
     return auth()->user()->isStaff()

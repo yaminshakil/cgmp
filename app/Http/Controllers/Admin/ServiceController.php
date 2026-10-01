@@ -31,7 +31,7 @@ class ServiceController extends Controller
         $data['slug'] = Slug::unique(Service::class, ($data['slug'] ?? null) ?: $data['title'], 'service');
 
         if ($request->hasFile('image')) {
-            $data['image'] = ImageUploader::store($request->file('image'), 'services');
+            $data['image'] = ImageUploader::store($request->file('image'), 'services', 1200);
         }
 
         $data['gallery'] = $this->storeGallery($request, []);
@@ -56,7 +56,7 @@ class ServiceController extends Controller
             $data['image'] = null;
         } elseif ($request->hasFile('image')) {
             ImageUploader::delete($service->image);
-            $data['image'] = ImageUploader::store($request->file('image'), 'services');
+            $data['image'] = ImageUploader::store($request->file('image'), 'services', 1200);
         }
 
         $data['gallery'] = $this->storeGallery($request, $service->gallery ?? []);
@@ -85,7 +85,7 @@ class ServiceController extends Controller
         $gallery = array_values(array_diff($existing, $removed));
 
         foreach ((array) $request->file('gallery', []) as $file) {
-            $gallery[] = ImageUploader::store($file, 'services');
+            $gallery[] = ImageUploader::store($file, 'services', 1200);
         }
 
         return array_slice($gallery, 0, 12);

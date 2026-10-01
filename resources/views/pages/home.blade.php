@@ -143,8 +143,11 @@
         <div class="relative order-1 px-6 pb-24 pt-6 sm:px-8 lg:absolute lg:inset-y-0 lg:right-0 lg:order-2 lg:w-1/2 lg:px-10 lg:py-10 lg:pb-12">
             <div class="relative h-[300px] sm:h-[360px] lg:h-full">
                 <div class="hero-photo absolute inset-0 overflow-hidden rounded-3xl shadow-2xl lg:rounded-[2rem]">
-                    <img src="{{ image_url($hero['image'] ?? null, 'images/hero-clinic.jpg') }}" alt="Our clinic team" class="absolute inset-0 hidden h-full w-full object-cover lg:block">
-                    <img src="{{ image_url($hero['mobile_image'] ?? $hero['image'] ?? null, 'images/hero-clinic.jpg') }}" alt="Our clinic team" class="absolute inset-0 block h-full w-full object-cover lg:hidden">
+                    {{-- One <picture> so phones don't also download the desktop image (a hidden <img> still loads) --}}
+                    <picture>
+                        <source media="(min-width: 1024px)" srcset="{{ image_url($hero['image'] ?? null, 'images/hero-clinic.jpg') }}">
+                        <img src="{{ image_url($hero['mobile_image'] ?? $hero['image'] ?? null, 'images/hero-clinic.jpg') }}" alt="Our clinic team" fetchpriority="high" decoding="async" class="absolute inset-0 h-full w-full object-cover">
+                    </picture>
                     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" aria-hidden="true"></div>
                     <div class="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-3 py-4 sm:px-5 sm:py-5 lg:hidden">
                         @if(!empty($hero['badge_text']))
