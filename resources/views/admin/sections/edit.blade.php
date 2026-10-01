@@ -143,6 +143,48 @@
     </div>
 
     <div class="rounded-xl bg-white p-6 shadow-sm">
+        <h2 class="text-lg font-bold">Clinic Gallery <span class="text-sm font-normal text-gray-400">(home &amp; Contact pages)</span></h2>
+        <p class="mt-1 text-sm text-gray-500">Up to 6 photos of the clinic. Upload a new file to replace a photo, or tick Remove to take it out. Empty slots are skipped, and photos appear in the order shown here. Landscape photos work best.</p>
+        <form method="POST" action="{{ route('admin.sections.gallery') }}" enctype="multipart/form-data" class="mt-4 grid gap-4">
+            @csrf @method('PUT')
+            <div class="grid gap-4 md:grid-cols-2">
+                @for($i = 0; $i < 6; $i++)
+                    @php $photo = $gallery[$i] ?? null; @endphp
+                    <fieldset class="rounded-lg border border-gray-200 p-4">
+                        <legend class="px-2 text-sm font-semibold">Photo {{ $i + 1 }}</legend>
+                        @if($photo)
+                            <img src="{{ image_url($photo['image']) }}" class="mb-3 h-28 w-full rounded-lg object-cover" alt="">
+                        @endif
+                        <label class="block">
+                            <span class="text-sm font-semibold">{{ $photo ? 'Replace photo' : 'Photo' }}</span>
+                            <input type="file" name="items[{{ $i }}][image]" accept="image/*" class="mt-1 w-full">
+                        </label>
+                        <label class="mt-3 block">
+                            <span class="text-sm font-semibold">Caption</span>
+                            <input type="text" name="items[{{ $i }}][caption]" maxlength="120" value="{{ old("items.$i.caption", $photo['caption'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
+                        </label>
+                        <label class="mt-3 block">
+                            <span class="text-sm font-semibold">Subtitle <span class="text-gray-400">(Contact page only)</span></span>
+                            <input type="text" name="items[{{ $i }}][sub]" maxlength="160" value="{{ old("items.$i.sub", $photo['sub'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
+                        </label>
+                        <label class="mt-3 block">
+                            <span class="text-sm font-semibold">Image description <span class="text-gray-400">(for screen readers &amp; search)</span></span>
+                            <input type="text" name="items[{{ $i }}][alt]" maxlength="200" value="{{ old("items.$i.alt", $photo['alt'] ?? '') }}" class="mt-1 w-full rounded-lg border-gray-300">
+                        </label>
+                        @if($photo)
+                            <label class="mt-3 flex items-center gap-2 text-sm text-gray-600">
+                                <input type="checkbox" name="items[{{ $i }}][remove]" value="1" class="rounded border-gray-300">
+                                Remove photo
+                            </label>
+                        @endif
+                    </fieldset>
+                @endfor
+            </div>
+            <div><button type="submit" class="rounded-lg bg-brand-blue px-5 py-2 font-semibold text-white">Save Gallery</button></div>
+        </form>
+    </div>
+
+    <div class="rounded-xl bg-white p-6 shadow-sm">
         <h2 class="text-lg font-bold">Nearest Hospitals (Emergency page)</h2>
         <p class="mt-1 text-sm text-gray-500">One hospital per line, in the format: <code>Name | Distance | Address | Phone</code>. Example: <code>Wollongong Hospital | 5km | Loftus St, Wollongong NSW 2500 | (02) 4222 5000</code></p>
         <form method="POST" action="{{ route('admin.sections.nearest-hospitals') }}" class="mt-4 grid gap-4">

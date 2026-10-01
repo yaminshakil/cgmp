@@ -27,7 +27,7 @@ class SectionSeeder extends Seeder
             'heading' => 'Caring for Cringila Since 2026',
             'subheading' => 'We are a passionate team of GPs dedicated to providing exceptional healthcare to our community.',
             'body' => '<p>Our experienced team offers comprehensive general practice care for individuals and families at every stage of life. We are open five days a week, with same-day appointments available and walk-ins welcome.</p><p>Our GPs specialise in mental health, men\'s and women\'s health, and chronic disease management.</p>',
-            'image' => 'images/about-consultation.jpg',
+            'image' => 'images/clinic-waiting-room.jpg',
             'points' => [
                 'Open five days a week',
                 'Same-day appointments available',

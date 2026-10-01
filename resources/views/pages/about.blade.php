@@ -14,7 +14,7 @@
 <section class="px-6 py-24 md:py-28">
     <div class="mx-auto grid max-w-6xl items-center gap-16 md:grid-cols-2 md:gap-20">
         <div class="relative mb-10 md:mb-0" data-reveal>
-            <img src="{{ image_url($about['image'] ?? null, 'images/hero-team.jpg') }}" alt="{{ setting('clinic_name') }}" class="h-[420px] w-full rounded-[18px] object-cover md:h-[500px]">
+            <img src="{{ image_url($about['image'] ?? null, 'images/clinic-waiting-room.jpg') }}" alt="{{ setting('clinic_name') }}" class="h-[420px] w-full rounded-[18px] object-cover md:h-[500px]">
 
             @if(!empty($about['stats']))
                 <div class="absolute inset-x-6 -bottom-8 flex divide-x divide-white/20 rounded-2xl bg-[#0f1c2a]/85 p-5 text-white shadow-xl backdrop-blur-sm">

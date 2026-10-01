@@ -122,5 +122,7 @@
     </div>
 </section>
 
+<x-clinic-gallery />
+
 @include('partials.contact-form-script')
 @endsection

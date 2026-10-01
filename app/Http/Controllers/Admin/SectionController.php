@@ -13,11 +13,14 @@ use Illuminate\Http\Request;
 
 class SectionController extends Controller
 {
+    private const GALLERY_SLOTS = 6;
+
     public function edit(): View
     {
         return view('admin.sections.edit', [
             'hero' => section_data('hero'),
             'about' => section_data('about'),
+            'gallery' => array_values(clinic_gallery_items()),
             'nearestHospitals' => section_data('nearest_hospitals'),
             'navigation' => section_data('navigation'),
             'footerLinks' => section_data('footer_links'),
@@ -127,6 +130,60 @@ class SectionController extends Controller
         Section::store('about', $payload);
 
         return redirect()->route('admin.sections.edit')->with('status', 'About section updated.');
+    }
+
+    public function updateGallery(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'items' => ['nullable', 'array', 'max:' . self::GALLERY_SLOTS],
+            'items.*.image' => ['nullable', 'image', 'max:6144'],
+            'items.*.caption' => ['nullable', 'string', 'max:120'],
+            'items.*.sub' => ['nullable', 'string', 'max:160'],
+            'items.*.alt' => ['nullable', 'string', 'max:200'],
+        ]);
+
+        // Slots are matched to the saved photos by position, never by a client-supplied path.
+        $current = array_values(clinic_gallery_items());
+        $items = [];
+
+        for ($i = 0; $i < self::GALLERY_SLOTS; $i++) {
+            $old = $current[$i] ?? [];
+            $input = $request->input("items.$i", []);
+            $path = $old['image'] ?? null;
+
+            if (! empty($input['remove'])) {
+                $this->deleteUploadedImage($path);
+                $path = null;
+            } elseif ($request->hasFile("items.$i.image")) {
+                $this->deleteUploadedImage($path);
+                $path = ImageUploader::store($request->file("items.$i.image"), 'gallery', 1600);
+            }
+
+            if (! $path) {
+                continue;
+            }
+
+            $caption = trim((string) ($input['caption'] ?? ''));
+
+            $items[] = [
+                'image' => $path,
+                'caption' => $caption,
+                'sub' => trim((string) ($input['sub'] ?? '')),
+                'alt' => trim((string) ($input['alt'] ?? '')) ?: $caption,
+            ];
+        }
+
+        Section::store('clinic_gallery', ['items' => $items]);
+
+        return redirect()->route('admin.sections.edit')->with('status', 'Clinic gallery updated.');
+    }
+
+    /** Only removes files staff uploaded; the bundled defaults under public/images stay put. */
+    private function deleteUploadedImage(?string $path): void
+    {
+        if ($path && ! str_starts_with($path, 'images/') && ! str_starts_with($path, 'http')) {
+            ImageUploader::delete($path);
+        }
     }
 
     public function updateNearestHospitals(Request $request): RedirectResponse

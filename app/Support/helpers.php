@@ -198,3 +198,24 @@ if (! function_exists('parse_opening_time')) {
         return $hour * 60 + $minute;
     }
 }
+
+if (! function_exists('clinic_gallery_defaults')) {
+    /** Photos shown in the clinic gallery until staff save their own under Admin → Sections. */
+    function clinic_gallery_defaults(): array
+    {
+        return [
+            ['image' => 'images/clinic-exterior.jpg', 'caption' => 'Easy to find at 23 Lake Avenue', 'sub' => 'Step-free entrance with a ramp', 'alt' => 'Front of Cringila General Medical Practice at 23 Lake Avenue, with the Medicare Bulk Billing sign'],
+            ['image' => 'images/clinic-reception.jpg', 'caption' => 'Friendly front desk', 'sub' => 'Book in, check in or ask us anything', 'alt' => 'Reception desk at Cringila General Medical Practice'],
+            ['image' => 'images/clinic-waiting-room.jpg', 'caption' => 'Comfortable waiting room', 'sub' => 'Seating and free health information', 'alt' => 'Waiting room with comfortable seating and a Health Updates brochure rack'],
+        ];
+    }
+}
+
+if (! function_exists('clinic_gallery_items')) {
+    function clinic_gallery_items(): array
+    {
+        $saved = section_data('clinic_gallery')['items'] ?? null;
+
+        return is_array($saved) ? $saved : clinic_gallery_defaults();
+    }
+}

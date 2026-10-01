@@ -27,6 +27,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'staff']
     Route::get('sections', [SectionController::class, 'edit'])->name('sections.edit');
     Route::put('sections/hero', [SectionController::class, 'updateHero'])->name('sections.hero');
     Route::put('sections/about', [SectionController::class, 'updateAbout'])->name('sections.about');
+    Route::put('sections/gallery', [SectionController::class, 'updateGallery'])->name('sections.gallery');
     Route::put('sections/nearest-hospitals', [SectionController::class, 'updateNearestHospitals'])->name('sections.nearest-hospitals');
     Route::put('sections/navigation', [SectionController::class, 'updateNavigation'])->name('sections.navigation');
     Route::put('sections/footer-links', [SectionController::class, 'updateFooterLinks'])->name('sections.footer-links');

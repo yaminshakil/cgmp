@@ -254,6 +254,8 @@
 </section>
 @endif
 
+<x-clinic-gallery compact bg="bg-brand-blue-tint dark:bg-[#141414]" />
+
 @if($faqs->isNotEmpty())
 <x-faq-section :faqs="$faqs" show-all-link />
 @endif
