@@ -7,9 +7,7 @@
 
         <title>{{ __('Sign In') }} | {{ setting('clinic_name', config('app.name', 'Laravel')) }}</title>
 
-        @if(setting('favicon_path') || setting('logo_path'))
-            <link rel="icon" href="{{ image_url(setting('favicon_path') ?: setting('logo_path')) }}">
-        @endif
+        @include('partials.favicon')
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

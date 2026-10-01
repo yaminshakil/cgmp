@@ -6,13 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard') — {{ setting('clinic_name', 'CGMP') }} Admin</title>
 
-    @if(setting('favicon_path') || setting('logo_path'))
-        <link rel="icon" href="{{ image_url(setting('favicon_path') ?: setting('logo_path')) }}">
-        <link rel="apple-touch-icon" href="{{ image_url(setting('favicon_path') ?: setting('logo_path')) }}">
-    @else
-        <link rel="icon" href="/icon.svg" type="image/svg+xml">
-        <link rel="apple-touch-icon" href="/apple-icon.png">
-    @endif
+    @include('partials.favicon')
 
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/aileron@5/index.min.css">
