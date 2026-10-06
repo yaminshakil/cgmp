@@ -42,7 +42,6 @@ CREATE TABLE `announcements` (
 
 LOCK TABLES `announcements` WRITE;
 /*!40000 ALTER TABLE `announcements` DISABLE KEYS */;
-INSERT INTO `announcements` VALUES (1,'If you have respiratory symptoms such as cough, cold or flu, please wear a face mask while in the practice. Masks are available at reception.','info',1,NULL,NULL,'2026-09-16 23:34:09','2026-09-16 23:34:09',NULL),(2,'Diabetes affects around 1.3 million Australians. Ask your GP about a diabetes risk check at your next visit.','info',1,NULL,NULL,'2026-09-16 23:34:09','2026-09-16 23:34:09',NULL);
 /*!40000 ALTER TABLE `announcements` ENABLE KEYS */;
 UNLOCK TABLES;
 
